@@ -1,21 +1,47 @@
-# React + TypeScript + Vite
+# Picto - Personal Portfolio Free Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### Preview
 
-While this project uses React, Vite supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+- [Demo](https://themewagon.github.io/picto/)
 
-## Deploy Your Own
+#### Download
 
-Deploy your own Vite project with Vercel.
+- [Download from ThemeWagon](https://themewagon.com/themes/picto)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/framework-boilerplates/vite-react&template=vite-react)
+## Getting Started
 
-_Live Example: https://vite-react-example.vercel.app_
+1. Clone Repository
 
-### Deploying From Your Terminal
-
-You can deploy your new Vite project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
-
-```shell
-$ vercel
 ```
+git clone https://github.com/themewagon/picto.git
+```
+
+2. Install Dependencies
+
+```
+npm i
+```
+
+3. Run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+## Author
+
+```
+Developed by ThemeWagon and development team.
+```
+
+## License
+
+- Design and Code is Copyright &copy; <a href="http://themewagon.com/" target="_blank">ThemeWagon</a>
+- Licensed cover under [MIT]
+- Developed by <a href="http://themewagon.com/" target="_blank">ThemeWagon</a>
