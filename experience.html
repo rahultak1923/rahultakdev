@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Experience — Rahul Tak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.exp-section { padding:100px var(--gutter); background:var(--bg); }
+.exp-grid { display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1280px;margin:0 auto;align-items:start; }
+
+/* TIMELINE */
+.timeline-wrap { position:relative; }
+.tl-line { position:absolute;left:21px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),var(--border),transparent); }
+.tl-item { display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative; }
+.tl-icon-wrap { flex-shrink:0;width:44px;height:44px;background:var(--surface);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:.95rem;z-index:1;box-shadow:0 0 16px var(--glow);transition:all .3s; }
+.tl-item:hover .tl-icon-wrap { background:var(--accent-grad);color:#fff;border-color:transparent; }
+.tl-card { flex:1;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:all .35s; }
+.tl-item:hover .tl-card { border-color:var(--accent);box-shadow:0 12px 32px rgba(0,0,0,.25),0 0 20px var(--glow);transform:translateX(6px); }
+.tl-role { font-family:var(--display);font-weight:700;font-size:1rem;margin-bottom:3px; }
+.tl-co { color:var(--accent);font-size:.82rem;font-weight:600;margin-bottom:4px; }
+.tl-meta { display:flex;gap:1rem;margin-bottom:.8rem; }
+.tl-period,.tl-loc { font-size:.72rem;color:var(--text3);font-family:var(--mono);display:flex;align-items:center;gap:5px; }
+.tl-desc { font-size:.84rem;color:var(--text2);line-height:1.65;margin-bottom:.9rem; }
+.tl-achievements { display:flex;flex-direction:column;gap:5px; }
+.tl-achievements li { display:flex;align-items:flex-start;gap:8px;font-size:.8rem;color:var(--text2); }
+.tl-achievements li i { color:var(--accent);margin-top:3px;font-size:.65rem;flex-shrink:0; }
+
+/* COMPANY LOGOS */
+.companies-section { background:var(--bg2); padding:80px var(--gutter); }
+.co-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3rem;max-width:1280px;margin-left:auto;margin-right:auto; }
+.co-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;padding:1.6rem 1.2rem;display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:.8rem;transition:all .35s;
+}
+.co-card:hover { border-color:var(--accent);transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.25),0 0 24px var(--glow); }
+.co-logo { width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem; }
+.co-name { font-family:var(--display);font-weight:700;font-size:.95rem; }
+.co-role { font-size:.78rem;color:var(--text2); }
+.co-year { font-size:.7rem;color:var(--accent);font-family:var(--mono); }
+
+/* TESTIMONIALS */
+.testimonials-section { padding:100px var(--gutter);background:var(--bg); }
+.tst-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem;max-width:1280px;margin-left:auto;margin-right:auto; }
+.tst-card { background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:all .35s; }
+.tst-card:hover { border-color:var(--accent);transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.25),0 0 20px var(--glow); }
+.tst-stars { color:var(--accent);font-size:1rem;margin-bottom:1rem;letter-spacing:2px; }
+.tst-text { font-size:.88rem;color:var(--text2);line-height:1.72;margin-bottom:1.2rem;font-style:italic; }
+.tst-author { display:flex;align-items:center;gap:10px; }
+.tst-av { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.85rem; }
+.tst-name { font-weight:700;font-size:.88rem; }
+.tst-pos { font-size:.72rem;color:var(--text3); }
+
+@media(max-width:960px){.exp-grid{grid-template-columns:1fr;}.co-grid{grid-template-columns:1fr 1fr;}.tst-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.co-grid{grid-template-columns:1fr 1fr;};}
+</style>
+</head>
+<body>
+<div id="pg-transition"></div>
+<div id="cursor"></div><div id="cursor-ring"></div>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg">Done!</span></div>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo" onclick="navTo(event,'index.html')"><div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="16 18 22 12 16 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><polyline points="8 6 2 12 8 18" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round"/></svg></div><span>Rahul<span class="logo-accent">Tak</span></span></a>
+  <ul class="nav-links"><li><a href="index.html" onclick="navTo(event,'index.html')">Home</a></li><li><a href="about.html" onclick="navTo(event,'about.html')">About</a></li><li><a href="services.html" onclick="navTo(event,'services.html')">Services</a></li><li><a href="work.html" onclick="navTo(event,'work.html')">Work</a></li><li><a href="experience.html" class="nav-active">Experience</a></li><li><a href="contact.html" onclick="navTo(event,'contact.html')">Contact</a></li><li><a href="lab.html" class="nav-special" onclick="navTo(event,'lab.html')">✦ Lab</a></li></ul>
+  <div class="nav-right"><div class="theme-switcher"><button class="th-btn" onclick="setTheme('dark')" id="th-dark"><i class="fas fa-moon"></i></button><button class="th-btn" onclick="setTheme('light')" id="th-light"><i class="fas fa-sun"></i></button><button class="th-btn" onclick="setTheme('blue')" id="th-blue"><i class="fas fa-droplet"></i></button></div><a href="contact.html" class="btn btn-primary nav-hire" onclick="navTo(event,'contact.html')">Hire Me</a><button class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button></div>
+</nav>
+<div class="page-hero">
+  <div class="page-hero-bg"></div><div class="page-hero-grid"></div>
+  <div class="ph-inner">
+    <div class="ph-breadcrumb"><a href="index.html" onclick="navTo(event,'index.html')">Home</a> <i class="fas fa-chevron-right" style="font-size:.6rem"></i> Experience</div>
+    <h1 class="ph-title">Career <span class="accent-text">Journey</span></h1>
+    <p class="ph-sub">5+ years of building at scale — from startup MVPs to enterprise platforms serving millions.</p>
+  </div>
+</div>
+
+<section class="exp-section">
+  <div class="exp-grid">
+    <!-- WORK TIMELINE -->
+    <div>
+      <div class="s-label reveal-up">Work History</div>
+      <h2 class="s-title reveal-up">Professional <span class="accent-text">Timeline</span></h2>
+      <div class="timeline-wrap" style="margin-top:2.5rem">
+        <div class="tl-line"></div>
+        <div class="tl-item reveal-up" style="--delay:0s">
+          <div class="tl-icon-wrap"><i class="fas fa-briefcase"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">Senior Full-Stack Developer</div>
+            <div class="tl-co">TechNova Solutions Pvt. Ltd.</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2022 — Present</span><span class="tl-loc"><i class="fas fa-map-pin"></i> Jaipur, IN</span></div>
+            <p class="tl-desc">Leading frontend architecture for a B2B SaaS platform. Migrated jQuery to React — reducing bundle size by 42% and improving LCP by 3x.</p>
+            <ul class="tl-achievements">
+              <li><i class="fas fa-diamond"></i>Led team of 4 developers building core product features</li>
+              <li><i class="fas fa-diamond"></i>Reduced API response times by 65% via Redis caching</li>
+              <li><i class="fas fa-diamond"></i>Shipped design system adopted by 3 product teams</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.1s">
+          <div class="tl-icon-wrap"><i class="fas fa-laptop-code"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">UI/UX Developer</div>
+            <div class="tl-co">Infosys Limited</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2020 — 2022</span><span class="tl-loc"><i class="fas fa-map-pin"></i> Remote</span></div>
+            <p class="tl-desc">Designed and developed responsive web components for enterprise clients across banking, healthcare, and e-commerce domains.</p>
+            <ul class="tl-achievements">
+              <li><i class="fas fa-diamond"></i>Delivered 12 client projects on time and under budget</li>
+              <li><i class="fas fa-diamond"></i>Improved accessibility scores from 62 → 96 (WCAG 2.1)</li>
+              <li><i class="fas fa-diamond"></i>Mentored 2 junior developers in React best practices</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.2s">
+          <div class="tl-icon-wrap"><i class="fas fa-credit-card"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">Frontend Developer</div>
+            <div class="tl-co">Razorpay Software Pvt. Ltd.</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2019 — 2020</span><span class="tl-loc"><i class="fas fa-map-pin"></i> Bangalore</span></div>
+            <p class="tl-desc">Built high-performance payment UI components and checkout flows handling millions of monthly transactions.</p>
+            <ul class="tl-achievements">
+              <li><i class="fas fa-diamond"></i>Checkout conversion rate improved 18% via UX redesign</li>
+              <li><i class="fas fa-diamond"></i>Built reusable payment SDK used by 200+ merchants</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.3s">
+          <div class="tl-icon-wrap"><i class="fas fa-graduation-cap"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">Junior Web Developer (Intern)</div>
+            <div class="tl-co">Wipro Technologies</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2018 — 2019</span><span class="tl-loc"><i class="fas fa-map-pin"></i> Pune</span></div>
+            <p class="tl-desc">Developed internal tools and dashboards for digital transformation team using HTML, CSS, JS, and Bootstrap.</p>
+            <ul class="tl-achievements">
+              <li><i class="fas fa-diamond"></i>Built HR portal saving 6 hours/week of manual work</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div>
+      <div class="s-label reveal-up">Education & Learning</div>
+      <h2 class="s-title reveal-up"><span class="accent-text">Academic</span> Background</h2>
+      <div class="timeline-wrap" style="margin-top:2.5rem">
+        <div class="tl-line"></div>
+        <div class="tl-item reveal-up" style="--delay:0s">
+          <div class="tl-icon-wrap"><i class="fas fa-university"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">B.Tech — Computer Science</div>
+            <div class="tl-co">Rajasthan Technical University</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2014 — 2018</span><span class="tl-loc"><i class="fas fa-map-pin"></i> Kota, Rajasthan</span></div>
+            <p class="tl-desc">Core focus on DSA, OS, networking, and web technologies. Final year project: Real-time collaboration editor (like Google Docs).</p>
+            <ul class="tl-achievements"><li><i class="fas fa-diamond"></i>CGPA: 7.8/10</li><li><i class="fas fa-diamond"></i>Department coding champion 2017</li></ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.1s">
+          <div class="tl-icon-wrap"><i class="fab fa-aws" style="font-size:.85rem"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">AWS Certified Developer – Associate</div>
+            <div class="tl-co">Amazon Web Services</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2023</span></div>
+            <p class="tl-desc">Cloud-native application development, Lambda, EC2, S3, CloudFormation, and DevOps on AWS.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.2s">
+          <div class="tl-icon-wrap"><i class="fab fa-google" style="font-size:.85rem"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">Google UX Design Certificate</div>
+            <div class="tl-co">Google / Coursera</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2022</span></div>
+            <p class="tl-desc">User research, wireframing, prototyping, and usability testing with Figma.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--delay:.3s">
+          <div class="tl-icon-wrap"><i class="fab fa-react" style="font-size:.85rem"></i></div>
+          <div class="tl-card">
+            <div class="tl-role">Meta Front-End Developer</div>
+            <div class="tl-co">Meta / Coursera</div>
+            <div class="tl-meta"><span class="tl-period"><i class="fas fa-calendar"></i> 2021</span></div>
+            <p class="tl-desc">Advanced React, state management, testing, and accessibility development.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIES -->
+<section class="companies-section">
+  <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+    <div class="s-label">Experience At</div>
+    <h2 class="s-title">Companies I've <span class="accent-text">Worked With</span></h2>
+  </div>
+  <div class="co-grid">
+    <div class="co-card reveal-up" style="--delay:0s"><div class="co-logo" style="background:rgba(77,171,247,.15);color:#4dabf7"><i class="fas fa-building"></i></div><div class="co-name">TechNova Solutions</div><div class="co-role">Sr. FS Developer</div><div class="co-year">2022–Present</div></div>
+    <div class="co-card reveal-up" style="--delay:.1s"><div class="co-logo" style="background:rgba(34,197,94,.12);color:#22c55e"><i class="fas fa-network-wired"></i></div><div class="co-name">Infosys Limited</div><div class="co-role">UI/UX Developer</div><div class="co-year">2020–2022</div></div>
+    <div class="co-card reveal-up" style="--delay:.2s"><div class="co-logo" style="background:rgba(56,130,255,.12);color:var(--accent)"><i class="fas fa-credit-card"></i></div><div class="co-name">Razorpay</div><div class="co-role">Frontend Developer</div><div class="co-year">2019–2020</div></div>
+    <div class="co-card reveal-up" style="--delay:.3s"><div class="co-logo" style="background:rgba(251,191,36,.12);color:#fbbf24"><i class="fas fa-microchip"></i></div><div class="co-name">Wipro Technologies</div><div class="co-role">Jr. Developer</div><div class="co-year">2018–2019</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+    <div class="s-label">Social Proof</div>
+    <h2 class="s-title">What Clients <span class="accent-text">Say</span></h2>
+  </div>
+  <div class="tst-grid">
+    <div class="tst-card reveal-up" style="--delay:0s"><div class="tst-stars">★★★★★</div><p class="tst-text">"Delivered an exceptional e-commerce platform ahead of schedule. The UI is stunning and performance exceeded our expectations."</p><div class="tst-author"><div class="tst-av" style="background:linear-gradient(135deg,#3882ff,#1d4ed8)">AK</div><div><div class="tst-name">Arjun Kumar</div><div class="tst-pos">CEO, ShopNow India</div></div></div></div>
+    <div class="tst-card reveal-up" style="--delay:.1s"><div class="tst-stars">★★★★★</div><p class="tst-text">"Transformed our Figma designs into a flawless animated web app. Incredible attention to detail and excellent communication."</p><div class="tst-author"><div class="tst-av" style="background:linear-gradient(135deg,#22c55e,#15803d)">PS</div><div><div class="tst-name">Priya Sharma</div><div class="tst-pos">Product Manager, FinTech Startup</div></div></div></div>
+    <div class="tst-card reveal-up" style="--delay:.2s"><div class="tst-stars">★★★★★</div><p class="tst-text">"Page load dropped from 8s to 1.2s after the performance audit. ROI was 10x within the first month. Highly recommended!"</p><div class="tst-author"><div class="tst-av" style="background:linear-gradient(135deg,#f59e0b,#b45309)">RV</div><div><div class="tst-name">Rohit Verma</div><div class="tst-pos">CTO, Logistics Platform</div></div></div></div>
+  </div>
+</section>
+
+<footer id="footer"></footer>
+<script src="shared.js"></script>
+</body></html>

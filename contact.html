@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Contact — Rahul Tak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .contact-section {
+      padding: 80px var(--gutter) 100px;
+      background: var(--bg);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* CONTACT INFO */
+    .contact-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.4rem;
+      position: sticky;
+      top: 90px;
+    }
+
+    .ci-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .ci-sub {
+      color: var(--text2);
+      font-size: .88rem;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .ci-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .ci-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .ci-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+
+    .ci-item:hover .ci-icon {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 16px var(--glow);
+    }
+
+    .ci-label {
+      font-size: .72rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 2px;
+    }
+
+    .ci-val {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .ci-val a {
+      color: var(--text);
+      transition: color .2s;
+    }
+
+    .ci-val a:hover {
+      color: var(--accent);
+    }
+
+    /* SOCIAL */
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: .5rem;
+    }
+
+    .soc-btn {
+      width: 42px;
+      height: 42px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--text2);
+      transition: all .3s;
+      text-decoration: none;
+    }
+
+    .soc-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--glow);
+    }
+
+    /* STATUS BADGE */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, .1);
+      border: 1px solid rgba(34, 197, 94, .25);
+      color: #22c55e;
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-size: .78rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse-green 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+      50% {
+        opacity: .4;
+        transform: scale(1.5);
+      }
+    }
+
+    /* CONTACT FORM */
+    .contact-form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.4rem;
+    }
+
+    .cf-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .cf-sub {
+      color: var(--text2);
+      font-size: .88rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label .req {
+      color: var(--accent);
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+      background: var(--bg3);
+    }
+
+    .form-control::placeholder {
+      color: var(--text3);
+    }
+
+    textarea.form-control {
+      height: 130px;
+      resize: none;
+    }
+
+    /* SELECT */
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a9cc4' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    select.form-control option {
+      background: var(--bg2);
+      color: var(--text);
+    }
+
+    /* SUBMIT BUTTON */
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-grad);
+      color: #fff;
+      padding: 15px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: .95rem;
+      cursor: none;
+      box-shadow: 0 0 28px var(--glow);
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, .15);
+      transform: translateX(-100%);
+      transition: transform .4s;
+    }
+
+    .btn-submit:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 40px var(--glow-strong);
+    }
+
+    .btn-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* SUCCESS / ERROR STATES */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(34, 197, 94, .1);
+      border: 2px solid rgba(34, 197, 94, .3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: #22c55e;
+    }
+
+    .success-title {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .success-text {
+      color: var(--text2);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+
+    .success-email {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* FIELD VALIDATION */
+    .form-control.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, .15);
+    }
+
+    .field-err {
+      font-size: .72rem;
+      color: #ef4444;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .field-err.show {
+      display: block;
+    }
+
+    /* MAP/LOCATION CARD */
+    .location-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 3rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .loc-info {
+      padding: 2rem;
+    }
+
+    .loc-map {
+      background: linear-gradient(135deg, var(--surface2), var(--bg3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loc-map svg {
+      width: 80%;
+      height: 80%;
+      opacity: .25;
+    }
+
+    .map-pin {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      animation: pinBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes pinBounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .map-pin-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-strong);
+    }
+
+    .map-pin-icon i {
+      transform: rotate(45deg);
+      color: #fff;
+      font-size: .9rem;
+    }
+
+    .map-pin-label {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-family: var(--mono);
+      color: var(--accent2);
+      white-space: nowrap;
+    }
+
+    @media(max-width:960px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location-card {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info-card {
+        position: static;
+      }
+    }
+
+    @media(max-width:600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="pg-transition"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg">Done!</span></div>
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo" onclick="navTo(event,'index.html')">
+      <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <polyline points="16 18 22 12 16 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+          <polyline points="8 6 2 12 8 18" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round" />
+        </svg></div><span>Rahul<span class="logo-accent">Tak</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" onclick="navTo(event,'index.html')">Home</a></li>
+      <li><a href="about.html" onclick="navTo(event,'about.html')">About</a></li>
+      <li><a href="services.html" onclick="navTo(event,'services.html')">Services</a></li>
+      <li><a href="work.html" onclick="navTo(event,'work.html')">Work</a></li>
+      <li><a href="experience.html" onclick="navTo(event,'experience.html')">Experience</a></li>
+      <li><a href="contact.html" class="nav-active">Contact</a></li>
+      <li><a href="lab.html" class="nav-special" onclick="navTo(event,'lab.html')">✦ Lab</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="theme-switcher"><button class="th-btn" onclick="setTheme('dark')" id="th-dark"><i
+            class="fas fa-moon"></i></button><button class="th-btn" onclick="setTheme('light')" id="th-light"><i
+            class="fas fa-sun"></i></button><button class="th-btn" onclick="setTheme('blue')" id="th-blue"><i
+            class="fas fa-droplet"></i></button></div><a href="contact.html" class="btn btn-primary nav-hire">Contact
+        Me</a><button class="hamburger" id="hamburger"
+        onclick="toggleNav()"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+    <div class="ph-inner">
+      <div class="ph-breadcrumb"><a href="index.html" onclick="navTo(event,'index.html')">Home</a> <i
+          class="fas fa-chevron-right" style="font-size:.6rem"></i> Contact</div>
+      <h1 class="ph-title">Let's <span class="accent-text">Connect</span></h1>
+      <p class="ph-sub">Have a project, opportunity, or just want to say hi? I'd love to hear from you. Replies within
+        24 hours.</p>
+    </div>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-grid">
+      <!-- INFO PANEL -->
+      <div class="contact-info-card reveal-right">
+        <div class="status-badge"><span class="status-dot"></span>Available for New Projects</div>
+        <h3 class="ci-title">Get In Touch</h3>
+        <p class="ci-sub">Whether it's a big product, a small freelance gig, or just an interesting conversation — reach
+          out anytime.</p>
+        <div class="ci-items">
+          <div class="ci-item">
+            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-val"><a href="mailto:rahultak1923@gmail.com">rahultak1923@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="ci-label">Phone</div>
+              <div class="ci-val"><a href="tel:+919876543210">+91 98765 43210</a></div>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="ci-label">Location</div>
+              <div class="ci-val">Jaipur, Rajasthan, India 302001</div>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="ci-label">Working Hours</div>
+              <div class="ci-val">Mon–Fri, 9 AM – 7 PM IST</div>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><i class="fas fa-bolt"></i></div>
+            <div>
+              <div class="ci-label">Response Time</div>
+              <div class="ci-val">Usually within 12–24 hours</div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:1.5rem">
+          <div class="ci-label" style="margin-bottom:.9rem">Find Me On</div>
+          <div class="social-row">
+            <a href="https://github.com" target="_blank" class="soc-btn" title="GitHub"><i
+                class="fab fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="soc-btn" title="LinkedIn"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://twitter.com" target="_blank" class="soc-btn" title="Twitter"><i
+                class="fab fa-twitter"></i></a>
+            <a href="https://youtube.com" target="_blank" class="soc-btn" title="YouTube"><i
+                class="fab fa-youtube"></i></a>
+            <a href="https://instagram.com" target="_blank" class="soc-btn" title="Instagram"><i
+                class="fab fa-instagram"></i></a>
+            <a href="https://dribbble.com" target="_blank" class="soc-btn" title="Dribbble"><i
+                class="fab fa-dribbble"></i></a>
+            <a href="https://behance.net" target="_blank" class="soc-btn" title="Behance"><i
+                class="fab fa-behance"></i></a>
+            <a href="https://dev.to" target="_blank" class="soc-btn" title="Dev.to"><i class="fab fa-dev"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM PANEL -->
+      <div class="contact-form-card reveal-left">
+        <!-- FORM -->
+        <div id="form-section">
+          <h3 class="cf-title">Send a Message</h3>
+          <p class="cf-sub">Fill out the form and I'll get back to you at <span
+              style="color:var(--accent)">rahultak1923@gmail.com</span> within 24 hours.</p>
+
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name <span class="req">*</span></label>
+                <input type="text" id="f-fname" class="form-control" placeholder="Arjun" required />
+                <div class="field-err" id="err-fname">Please enter your first name.</div>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="f-lname" class="form-control" placeholder="Kumar" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="req">*</span></label>
+              <input type="email" id="f-email" class="form-control" placeholder="arjun@company.com" required />
+              <div class="field-err" id="err-email">Please enter a valid email.</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone (optional)</label>
+                <input type="tel" id="f-phone" class="form-control" placeholder="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label>Budget Range</label>
+                <select id="f-budget" class="form-control">
+                  <option value="">Select budget...</option>
+                  <option>Under ₹10,000</option>
+                  <option>₹10,000 – ₹25,000</option>
+                  <option>₹25,000 – ₹50,000</option>
+                  <option>₹50,000 – ₹1,00,000</option>
+                  <option>₹1,00,000+</option>
+                  <option>Let's discuss</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Service Needed <span class="req">*</span></label>
+              <select id="f-service" class="form-control" required>
+                <option value="">Select a service...</option>
+                <option>Full-Stack Web Development</option>
+                <option>UI/UX Design & Development</option>
+                <option>Frontend Development</option>
+                <option>Backend / API Development</option>
+                <option>Responsive Web Design</option>
+                <option>Cloud & DevOps</option>
+                <option>Performance Optimization</option>
+                <option>Consulting</option>
+                <option>Other</option>
+              </select>
+              <div class="field-err" id="err-service">Please select a service.</div>
+            </div>
+            <div class="form-group">
+              <label>Subject <span class="req">*</span></label>
+              <input type="text" id="f-subject" class="form-control" placeholder="Project inquiry — E-Commerce App"
+                required />
+              <div class="field-err" id="err-subject">Please enter a subject.</div>
+            </div>
+            <div class="form-group">
+              <label>Message <span class="req">*</span></label>
+              <textarea id="f-message" class="form-control"
+                placeholder="Tell me about your project, goals, timeline, and any relevant details..."
+                required></textarea>
+              <div class="field-err" id="err-message">Please enter your message.</div>
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-start;gap:10px">
+              <input type="checkbox" id="f-consent"
+                style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;cursor:none" />
+              <label for="f-consent" style="font-size:.8rem;color:var(--text2);cursor:none;font-weight:400">I agree that
+                my submitted data is collected and stored as described in the Privacy Policy, and that Rahul Tak can
+                contact me at the email provided.</label>
+            </div>
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <i class="fas fa-paper-plane" id="btn-icon"></i>
+              <span id="btn-text">Send Message</span>
+            </button>
+            <p style="font-size:.72rem;color:var(--text3);text-align:center;margin-top:.8rem">
+              <i class="fas fa-lock" style="margin-right:4px"></i>Your information is safe and never shared.
+            </p>
+          </form>
+        </div>
+        <!-- SUCCESS STATE -->
+        <div class="form-success" id="form-success">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <div class="success-title">Message Sent! 🎉</div>
+          <p class="success-text">
+            Thank you for reaching out! Your message has been sent directly to<br />
+            <span class="success-email">rahultak1923@gmail.com</span><br /><br />
+            I'll get back to you within 24 hours. In the meantime, feel free to explore my work.
+          </p>
+          <div style="display:flex;gap:1rem;justify-content:center;margin-top:1.8rem;flex-wrap:wrap">
+            <a href="work.html" class="btn btn-primary" onclick="navTo(event,'work.html')"><i class="fas fa-rocket"></i>
+              View My Work</a>
+            <button onclick="resetForm()" class="btn btn-ghost"><i class="fas fa-redo"></i> Send Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="location-card reveal-up" style="margin-top:4rem">
+      <div class="loc-info" style="padding:2.5rem">
+        <div class="s-label">My Location</div>
+        <h3 style="font-family:var(--display);font-size:1.4rem;font-weight:700;margin-bottom:.5rem">Jaipur, Rajasthan
+        </h3>
+        <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1.5rem">The Pink City — India's
+          design capital. Open to remote work worldwide and on-site for projects in Rajasthan and NCR.</p>
+        <div style="display:flex;flex-direction:column;gap:.8rem">
+          <div style="display:flex;align-items:center;gap:10px;font-size:.85rem"><i class="fas fa-map-pin"
+              style="color:var(--accent);width:18px"></i><span>Jaipur, Rajasthan 302001, India</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:.85rem"><i class="fas fa-globe"
+              style="color:var(--accent);width:18px"></i><span>Remote-friendly worldwide</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:.85rem"><i class="fas fa-plane"
+              style="color:var(--accent);width:18px"></i><span>Available for travel (India)</span></div>
+        </div>
+      </div>
+      <div class="loc-map">
+        <svg viewBox="0 0 400 300" fill="none" opacity=".15">
+          <rect x="0" y="0" width="400" height="300" fill="none" />
+          <path d="M50 150 Q100 80 200 100 Q300 120 350 80" stroke="var(--accent)" stroke-width="1" fill="none" />
+          <path d="M30 200 Q150 170 250 190 Q330 200 380 160" stroke="var(--accent2)" stroke-width="1" fill="none" />
+          <circle cx="200" cy="140" r="40" stroke="var(--accent)" stroke-width="1" fill="none" />
+          <circle cx="200" cy="140" r="20" fill="var(--accent)" opacity=".3" />
+        </svg>
+        <div class="map-pin">
+          <div class="map-pin-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <span class="map-pin-label">📍 Jaipur, IN</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+  <script src="shared.js"></script>
+  <script>
+    // ── EmailJS SETUP ──
+    // 1. Go to https://www.emailjs.com/ → Create FREE account
+    // 2. Create an Email Service (Gmail recommended — connect your rahultak1923@gmail.com)
+    // 3. Create an Email Template with these variables:
+    //    {{from_name}}, {{from_email}}, {{phone}}, {{service}}, {{budget}}, {{subject}}, {{message}}
+    // 4. Replace the values below with your actual Public Key, Service ID, Template ID
+    const EMAILJS_PUBLIC_KEY = 'LfLlv2hvzyos1E2Ef';   // e.g. 'user_abc123...'
+    const EMAILJS_SERVICE_ID = 'service_q982e7l';   // e.g. 'service_gmail'
+    const EMAILJS_TEMPLATE_ID = 'template_vr9pcsl';  // e.g. 'template_contact'
+
+    (function initEmailJS() {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      }
+    })();
+
+    // ── FORM SUBMIT ──
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      const btn = document.getElementById('submit-btn');
+      const icon = document.getElementById('btn-icon');
+      const txt = document.getElementById('btn-text');
+
+      // Loading state
+      btn.disabled = true;
+      icon.className = 'fas fa-spinner fa-spin';
+      txt.textContent = 'Sending...';
+
+      const params = {
+        from_name: document.getElementById('f-fname').value.trim() + ' ' + document.getElementById('f-lname').value.trim(),
+        from_email: document.getElementById('f-email').value.trim(),
+        phone: document.getElementById('f-phone').value.trim() || 'Not provided',
+        service: document.getElementById('f-service').value || 'Not specified',
+        budget: document.getElementById('f-budget').value || 'Not specified',
+        subject: document.getElementById('f-subject').value.trim(),
+        message: document.getElementById('f-message').value.trim(),
+        to_email: 'rahultak1923@gmail.com',
+      };
+
+      try {
+        if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+          // REAL send via EmailJS
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+        } else {
+          // DEMO mode: simulate network delay
+          await new Promise(r => setTimeout(r, 1800));
+          console.log('📧 [DEMO] Email would be sent to rahultak1923@gmail.com with:', params);
+        }
+        // SUCCESS
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+        showToast('Message sent to rahultak1923@gmail.com! 🚀');
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        btn.disabled = false;
+        icon.className = 'fas fa-paper-plane';
+        txt.textContent = 'Send Message';
+        showToast('Something went wrong. Please email directly: rahultak1923@gmail.com', true);
+      }
+    });
+
+    function validateForm() {
+      let valid = true;
+      const rules = [
+        { id: 'f-fname', errId: 'err-fname', check: v => v.trim().length >= 2 },
+        { id: 'f-email', errId: 'err-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+        { id: 'f-service', errId: 'err-service', check: v => v !== '' },
+        { id: 'f-subject', errId: 'err-subject', check: v => v.trim().length >= 3 },
+        { id: 'f-message', errId: 'err-message', check: v => v.trim().length >= 10 },
+      ];
+      rules.forEach(r => {
+        const el = document.getElementById(r.id);
+        const err = document.getElementById(r.errId);
+        if (!r.check(el.value)) {
+          el.classList.add('error');
+          err.classList.add('show');
+          valid = false;
+        } else {
+          el.classList.remove('error');
+          err.classList.remove('show');
+        }
+      });
+      if (!valid) showToast('Please fill in all required fields.', true);
+      return valid;
+    }
+
+    // Real-time field validation
+    ['f-fname', 'f-email', 'f-service', 'f-subject', 'f-message'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => {
+        el.classList.remove('error');
+        const errEl = document.getElementById('err-' + id.replace('f-', ''));
+        if (errEl) errEl.classList.remove('show');
+      });
+    });
+
+    function resetForm() {
+      document.getElementById('contact-form').reset();
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('form-success').style.display = 'none';
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = false;
+      document.getElementById('btn-icon').className = 'fas fa-paper-plane';
+      document.getElementById('btn-text').textContent = 'Send Message';
+    }
+  </script>
+</body>
+
+</html>

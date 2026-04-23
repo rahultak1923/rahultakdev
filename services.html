@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Services — Rahul Tak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.services-section { padding: 100px var(--gutter); background: var(--bg); }
+.services-big-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+.big-srv-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; padding: 2.2rem; position: relative; overflow: hidden;
+  transition: all .4s; cursor: none;
+}
+.big-srv-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,.3), 0 0 40px var(--glow); }
+.big-srv-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--accent-grad); transform:scaleX(0);transform-origin:left;transition:transform .4s; }
+.big-srv-card:hover::before { transform: scaleX(1); }
+.bs-num { font-family:var(--mono);font-size:3rem;font-weight:600;color:var(--border);line-height:1;margin-bottom:1rem;transition:color .3s; }
+.big-srv-card:hover .bs-num { color: var(--accent); }
+.bs-icon { width:56px;height:56px;background:var(--tag-bg);border:1px solid var(--border);border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;color:var(--accent);margin-bottom:1.2rem;transition:all .3s; }
+.big-srv-card:hover .bs-icon { background:var(--accent-grad);color:#fff;border-color:transparent;box-shadow:0 0 22px var(--glow); }
+.bs-title { font-family:var(--display);font-size:1.15rem;font-weight:700;margin-bottom:.7rem; }
+.bs-desc { font-size:.88rem;color:var(--text2);line-height:1.68;margin-bottom:1.2rem; }
+.bs-features { display:flex;flex-direction:column;gap:7px;margin-bottom:1.3rem; }
+.bs-features li { display:flex;align-items:flex-start;gap:9px;font-size:.82rem;color:var(--text2); }
+.bs-features li i { color:var(--accent);margin-top:3px;font-size:.72rem;flex-shrink:0; }
+.bs-tags { display:flex;flex-wrap:wrap;gap:6px; }
+.bst { font-size:.7rem;font-family:var(--mono);color:var(--accent2);background:var(--tag-bg);padding:3px 10px;border-radius:12px;border:1px solid var(--border); }
+
+/* PROCESS */
+.process-section { padding: 100px var(--gutter); background: var(--bg2); }
+.process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 3rem; position: relative; }
+.process-steps::before {
+  content:''; position:absolute; top:32px; left:10%; right:10%;
+  height:1px; background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);
+  z-index: 0;
+}
+.proc-step { text-align:center;position:relative;z-index:1; }
+.proc-num {
+  width:64px;height:64px;background:var(--surface);border:2px solid var(--accent);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--accent);
+  margin:0 auto 1.2rem;
+  box-shadow:0 0 20px var(--glow);
+  transition:all .3s;
+}
+.proc-step:hover .proc-num { background:var(--accent-grad);color:#fff;transform:scale(1.1); }
+.proc-title { font-family:var(--display);font-weight:700;font-size:.95rem;margin-bottom:.5rem; }
+.proc-desc { font-size:.8rem;color:var(--text2);line-height:1.6; }
+
+/* PRICING */
+.pricing-section { padding: 100px var(--gutter); background: var(--bg); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; align-items: start; }
+.price-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:2rem;transition:all .4s;position:relative;overflow:hidden;
+}
+.price-card.popular { border-color:var(--accent);box-shadow:0 0 40px var(--glow); transform: scale(1.03); }
+.price-card.popular::before { content:'Most Popular';position:absolute;top:14px;right:-26px;background:var(--accent-grad);color:#fff;font-size:.7rem;font-weight:700;padding:4px 36px;transform:rotate(35deg); }
+.price-card:hover { transform:translateY(-8px);border-color:var(--accent);box-shadow:0 24px 50px rgba(0,0,0,.3),0 0 30px var(--glow); }
+.price-card.popular:hover { transform: scale(1.03) translateY(-8px); }
+.pc-plan { font-family:var(--display);font-size:.85rem;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem; }
+.pc-price { font-family:var(--display);font-size:3rem;font-weight:800;line-height:1;margin-bottom:.3rem; }
+.pc-price sup { font-size:1.2rem;vertical-align:top;margin-top:.5rem; }
+.pc-period { font-size:.8rem;color:var(--text3); }
+.pc-desc { color:var(--text2);font-size:.85rem;margin:1rem 0 1.5rem;line-height:1.6; }
+.pc-features { display:flex;flex-direction:column;gap:9px;margin-bottom:1.8rem; }
+.pc-features li { display:flex;align-items:center;gap:10px;font-size:.84rem; }
+.pc-features li i { width:18px;text-align:center; }
+.pc-features li .fa-check { color:#22c55e; }
+.pc-features li .fa-times { color:var(--text3); }
+.pc-btn {
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px;border-radius:10px;font-weight:600;font-size:.9rem;
+  cursor:none;transition:all .3s;text-decoration:none;
+  background:var(--tag-bg);border:1px solid var(--border);color:var(--text);
+}
+.price-card.popular .pc-btn { background:var(--accent-grad);border:none;color:#fff;box-shadow:0 0 24px var(--glow); }
+.pc-btn:hover { background:var(--accent-grad);border-color:transparent;color:#fff;box-shadow:0 0 24px var(--glow); }
+
+@media(max-width:960px){.services-big-grid{grid-template-columns:1fr 1fr;}.process-steps{grid-template-columns:1fr 1fr;}.pricing-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.services-big-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="pg-transition"></div>
+<div id="cursor"></div><div id="cursor-ring"></div>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg">Done!</span></div>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo" onclick="navTo(event,'index.html')"><div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="16 18 22 12 16 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><polyline points="8 6 2 12 8 18" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round"/></svg></div><span>Rahul<span class="logo-accent">Tak</span></span></a>
+  <ul class="nav-links"><li><a href="index.html" onclick="navTo(event,'index.html')">Home</a></li><li><a href="about.html" onclick="navTo(event,'about.html')">About</a></li><li><a href="services.html" class="nav-active">Services</a></li><li><a href="work.html" onclick="navTo(event,'work.html')">Work</a></li><li><a href="experience.html" onclick="navTo(event,'experience.html')">Experience</a></li><li><a href="contact.html" onclick="navTo(event,'contact.html')">Contact</a></li><li><a href="lab.html" class="nav-special" onclick="navTo(event,'lab.html')">✦ Lab</a></li></ul>
+  <div class="nav-right"><div class="theme-switcher"><button class="th-btn" onclick="setTheme('dark')" id="th-dark"><i class="fas fa-moon"></i></button><button class="th-btn" onclick="setTheme('light')" id="th-light"><i class="fas fa-sun"></i></button><button class="th-btn" onclick="setTheme('blue')" id="th-blue"><i class="fas fa-droplet"></i></button></div><a href="contact.html" class="btn btn-primary nav-hire" onclick="navTo(event,'contact.html')">Hire Me</a><button class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button></div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div><div class="page-hero-grid"></div>
+  <div class="ph-inner">
+    <div class="ph-breadcrumb"><a href="index.html" onclick="navTo(event,'index.html')">Home</a> <i class="fas fa-chevron-right" style="font-size:.6rem"></i> Services</div>
+    <h1 class="ph-title">What I <span class="accent-text">Build</span></h1>
+    <p class="ph-sub">From concept to production — end-to-end development services that make your digital vision a reality.</p>
+  </div>
+</div>
+
+<section class="services-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+      <div class="s-label">My Services</div>
+      <h2 class="s-title">Everything You Need to <span class="accent-text">Ship</span></h2>
+      <p class="s-sub" style="margin:0 auto">Comprehensive development services across the full technology stack.</p>
+    </div>
+    <div class="services-big-grid">
+      <div class="big-srv-card reveal-up" style="--delay:0s">
+        <div class="bs-num">01</div>
+        <div class="bs-icon"><i class="fas fa-layer-group"></i></div>
+        <h3 class="bs-title">Full-Stack Development</h3>
+        <p class="bs-desc">End-to-end web applications — from React frontends to Node.js backends and MongoDB databases.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>React / Next.js frontends</li>
+          <li><i class="fas fa-check"></i>Node.js + Express APIs</li>
+          <li><i class="fas fa-check"></i>MongoDB + PostgreSQL</li>
+          <li><i class="fas fa-check"></i>Authentication & authorization</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">React</span><span class="bst">Node.js</span><span class="bst">MongoDB</span><span class="bst">Express</span></div>
+      </div>
+      <div class="big-srv-card reveal-up" style="--delay:.1s">
+        <div class="bs-num">02</div>
+        <div class="bs-icon"><i class="fas fa-palette"></i></div>
+        <h3 class="bs-title">UI/UX Design & Dev</h3>
+        <p class="bs-desc">Pixel-perfect, animated interfaces that convert — from Figma prototypes to production React components.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>Figma UI/UX prototyping</li>
+          <li><i class="fas fa-check"></i>Design system creation</li>
+          <li><i class="fas fa-check"></i>Animation & micro-interactions</li>
+          <li><i class="fas fa-check"></i>Responsive mobile-first layouts</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">Figma</span><span class="bst">Tailwind</span><span class="bst">Bootstrap</span><span class="bst">GSAP</span></div>
+      </div>
+      <div class="big-srv-card reveal-up" style="--delay:.2s">
+        <div class="bs-num">03</div>
+        <div class="bs-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3 class="bs-title">Responsive Web Design</h3>
+        <p class="bs-desc">Mobile-first, cross-browser compatible websites that look stunning on every device and screen size.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>Mobile-first CSS</li>
+          <li><i class="fas fa-check"></i>Cross-browser compatibility</li>
+          <li><i class="fas fa-check"></i>CSS Grid & Flexbox mastery</li>
+          <li><i class="fas fa-check"></i>Accessibility (WCAG 2.1)</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">HTML5</span><span class="bst">CSS3</span><span class="bst">Tailwind</span><span class="bst">Bootstrap</span></div>
+      </div>
+      <div class="big-srv-card reveal-up" style="--delay:.0s">
+        <div class="bs-num">04</div>
+        <div class="bs-icon"><i class="fas fa-plug"></i></div>
+        <h3 class="bs-title">API & Backend Services</h3>
+        <p class="bs-desc">Secure, documented RESTful and GraphQL APIs with authentication, rate limiting, and comprehensive testing.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>REST & GraphQL APIs</li>
+          <li><i class="fas fa-check"></i>JWT & OAuth2 security</li>
+          <li><i class="fas fa-check"></i>Redis caching</li>
+          <li><i class="fas fa-check"></i>API documentation (Swagger)</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">Express</span><span class="bst">GraphQL</span><span class="bst">JWT</span><span class="bst">Redis</span></div>
+      </div>
+      <div class="big-srv-card reveal-up" style="--delay:.1s">
+        <div class="bs-num">05</div>
+        <div class="bs-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <h3 class="bs-title">Cloud & DevOps</h3>
+        <p class="bs-desc">Containerized applications, CI/CD pipelines, and scalable cloud infrastructure on AWS and Vercel.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>Docker containerization</li>
+          <li><i class="fas fa-check"></i>GitHub Actions CI/CD</li>
+          <li><i class="fas fa-check"></i>AWS EC2, S3, Lambda</li>
+          <li><i class="fas fa-check"></i>Monitoring & logging</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">Docker</span><span class="bst">AWS</span><span class="bst">CI/CD</span><span class="bst">Linux</span></div>
+      </div>
+      <div class="big-srv-card reveal-up" style="--delay:.2s">
+        <div class="bs-num">06</div>
+        <div class="bs-icon"><i class="fas fa-tachometer-alt"></i></div>
+        <h3 class="bs-title">Performance Optimization</h3>
+        <p class="bs-desc">Auditing and optimizing existing sites for Core Web Vitals, SEO, and performance — improving conversion rates.</p>
+        <ul class="bs-features">
+          <li><i class="fas fa-check"></i>Lighthouse audits</li>
+          <li><i class="fas fa-check"></i>Code splitting & lazy loading</li>
+          <li><i class="fas fa-check"></i>Image optimization</li>
+          <li><i class="fas fa-check"></i>Technical SEO</li>
+        </ul>
+        <div class="bs-tags"><span class="bst">Webpack</span><span class="bst">SEO</span><span class="bst">PWA</span><span class="bst">Lighthouse</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+      <div class="s-label">How I Work</div>
+      <h2 class="s-title">My <span class="accent-text">Process</span></h2>
+    </div>
+    <div class="process-steps">
+      <div class="proc-step reveal-up" style="--delay:0s"><div class="proc-num">01</div><h3 class="proc-title">Discovery</h3><p class="proc-desc">Deep dive into your goals, users, and technical requirements. Define scope and timeline.</p></div>
+      <div class="proc-step reveal-up" style="--delay:.1s"><div class="proc-num">02</div><h3 class="proc-title">Design</h3><p class="proc-desc">Wireframes, Figma prototypes, and design system creation. Review and iterate until perfect.</p></div>
+      <div class="proc-step reveal-up" style="--delay:.2s"><div class="proc-num">03</div><h3 class="proc-title">Build</h3><p class="proc-desc">Clean, documented code. Regular demos and updates. CI/CD from day one.</p></div>
+      <div class="proc-step reveal-up" style="--delay:.3s"><div class="proc-num">04</div><h3 class="proc-title">Launch</h3><p class="proc-desc">Thorough testing, deployment, performance checks, and post-launch support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+      <div class="s-label">Investment</div>
+      <h2 class="s-title">Transparent <span class="accent-text">Pricing</span></h2>
+      <p class="s-sub" style="margin:0 auto">No surprises. All plans include revisions, communication, and dedicated support.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal-up" style="--delay:0s">
+        <div class="pc-plan">Starter</div>
+        <div class="pc-price"><sup>₹</sup>15,000</div>
+        <div class="pc-period">per project</div>
+        <p class="pc-desc">Perfect for landing pages and small business websites.</p>
+        <ul class="pc-features">
+          <li><i class="fas fa-check"></i>Up to 5 pages</li>
+          <li><i class="fas fa-check"></i>Responsive design</li>
+          <li><i class="fas fa-check"></i>Contact form</li>
+          <li><i class="fas fa-check"></i>2 revisions</li>
+          <li><i class="fas fa-check"></i>1 month support</li>
+          <li><i class="fas fa-times" style="color:var(--text3)"></i>CMS integration</li>
+          <li><i class="fas fa-times" style="color:var(--text3)"></i>Backend/API</li>
+        </ul>
+        <a href="contact.html" class="pc-btn" onclick="navTo(event,'contact.html')">Get Started <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="price-card popular reveal-up" style="--delay:.1s">
+        <div class="pc-plan">Professional</div>
+        <div class="pc-price"><sup>₹</sup>45,000</div>
+        <div class="pc-period">per project</div>
+        <p class="pc-desc">Full-stack web app or a feature-rich business site.</p>
+        <ul class="pc-features">
+          <li><i class="fas fa-check"></i>Unlimited pages</li>
+          <li><i class="fas fa-check"></i>Custom UI/UX design</li>
+          <li><i class="fas fa-check"></i>Backend + Database</li>
+          <li><i class="fas fa-check"></i>User authentication</li>
+          <li><i class="fas fa-check"></i>5 revisions</li>
+          <li><i class="fas fa-check"></i>3 months support</li>
+          <li><i class="fas fa-check"></i>Deployment included</li>
+        </ul>
+        <a href="contact.html" class="pc-btn" onclick="navTo(event,'contact.html')">Get Started <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="price-card reveal-up" style="--delay:.2s">
+        <div class="pc-plan">Enterprise</div>
+        <div class="pc-price">Custom</div>
+        <div class="pc-period">let's discuss</div>
+        <p class="pc-desc">Large-scale platforms, SaaS products, or ongoing development.</p>
+        <ul class="pc-features">
+          <li><i class="fas fa-check"></i>Full product development</li>
+          <li><i class="fas fa-check"></i>Team collaboration</li>
+          <li><i class="fas fa-check"></i>Architecture consulting</li>
+          <li><i class="fas fa-check"></i>Unlimited revisions</li>
+          <li><i class="fas fa-check"></i>6 months support</li>
+          <li><i class="fas fa-check"></i>Performance SLA</li>
+          <li><i class="fas fa-check"></i>Priority response</li>
+        </ul>
+        <a href="contact.html" class="pc-btn" onclick="navTo(event,'contact.html')">Let's Talk <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer"></footer>
+<script src="shared.js"></script>
+</body></html>

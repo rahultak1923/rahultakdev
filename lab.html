@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lab ✦ — Rahul Tak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ── LAB HERO - PARTICLE CANVAS ── */
+.lab-hero {
+  min-height: 100vh; position: relative;
+  display: flex; align-items: center;
+  padding: 120px var(--gutter) 80px;
+  overflow: hidden;
+}
+#particle-canvas {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+.lab-hero-inner { position:relative;z-index:1;max-width:1280px;margin:0 auto;width:100%; }
+.lab-title {
+  font-family:var(--display);font-size:clamp(4rem,9vw,9rem);
+  font-weight:800;letter-spacing:-4px;line-height:.9;
+  margin-bottom:1.5rem;
+}
+.lab-title .t1 { display:block;animation:fadeSlideUp .7s .1s ease both; }
+.lab-title .t2 { display:block;color:transparent;-webkit-text-stroke:2px var(--accent);animation:fadeSlideUp .7s .25s ease both; }
+.lab-title .t3 { display:block;color:var(--accent);animation:fadeSlideUp .7s .4s ease both; font-size:.45em; font-weight:400; letter-spacing:-1px; }
+.lab-sub { color:var(--text2);font-size:1.05rem;max-width:480px;line-height:1.7;animation:fadeSlideUp .7s .5s ease both; margin-bottom:2rem; }
+.lab-chips { display:flex;gap:8px;flex-wrap:wrap;animation:fadeSlideUp .7s .6s ease both; }
+.lab-chip { background:var(--tag-bg);border:1px solid var(--border);padding:6px 16px;border-radius:30px;font-size:.78rem;font-family:var(--mono);color:var(--accent2); }
+
+/* ── EXPERIMENTS ── */
+.experiments-section { padding:100px var(--gutter);background:var(--bg); }
+.exp-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem; }
+.exp-card {
+  border-radius:22px;overflow:hidden;
+  border:1px solid var(--border);background:var(--surface);
+  transition:all .4s;cursor:none;position:relative;
+}
+.exp-card:hover { transform:translateY(-12px) scale(1.02);border-color:var(--accent);box-shadow:0 32px 64px rgba(0,0,0,.35),0 0 40px var(--glow); }
+.exp-preview {
+  height:220px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface2);
+}
+.exp-body { padding:1.5rem; }
+.exp-title { font-family:var(--display);font-weight:700;font-size:1.05rem;margin-bottom:.4rem; }
+.exp-desc { font-size:.84rem;color:var(--text2);line-height:1.6; }
+.exp-tag { display:inline-block;background:var(--tag-bg);color:var(--accent2);font-size:.7rem;font-family:var(--mono);padding:3px 10px;border-radius:12px;border:1px solid var(--border);margin-top:.7rem; }
+
+/* Experiment 1: CSS Globe */
+.globe-wrap { width:140px;height:140px;position:relative; }
+.globe {
+  width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, var(--accent2), var(--accent3));
+  position:relative;overflow:hidden;
+  box-shadow:0 0 40px var(--glow-strong);
+  animation:globeSpin 8s linear infinite;
+}
+.globe::before {
+  content:'';position:absolute;inset:-10%;
+  border-radius:50%;
+  background:repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(255,255,255,.08) 18px,rgba(255,255,255,.08) 20px),
+             repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(255,255,255,.06) 28px,rgba(255,255,255,.06) 30px);
+  animation:globeShift 6s linear infinite;
+}
+.globe::after { content:'';position:absolute;top:-10%;left:-10%;width:60%;height:60%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.25),transparent 70%); }
+@keyframes globeSpin { to{filter:hue-rotate(360deg);} }
+@keyframes globeShift { to{transform:translateX(30px);} }
+
+/* Experiment 2: Neon Text */
+.neon-demo { font-family:var(--mono);font-size:1.5rem;font-weight:600;text-align:center; }
+.neon { color:var(--accent);animation:neonPulse 2s ease-in-out infinite; }
+@keyframes neonPulse {
+  0%,100%{ text-shadow:0 0 7px var(--accent),0 0 14px var(--accent),0 0 28px var(--accent); }
+  50%{ text-shadow:0 0 14px var(--accent),0 0 28px var(--accent),0 0 56px var(--accent),0 0 84px var(--accent); }
+}
+
+/* Experiment 3: Morphing Shape */
+.morph-wrap { width:130px;height:130px;display:flex;align-items:center;justify-content:center; }
+.morph {
+  width:110px;height:110px;
+  background:var(--accent-grad);
+  animation:morphShape 6s ease-in-out infinite;
+  box-shadow:0 0 40px var(--glow-strong);
+}
+@keyframes morphShape {
+  0%,100%{ border-radius:60% 40% 30% 70%/60% 30% 70% 40%; }
+  25%{ border-radius:30% 60% 70% 40%/50% 60% 30% 60%; }
+  50%{ border-radius:50% 60% 30% 60%/30% 50% 70% 50%; }
+  75%{ border-radius:60% 30% 60% 30%/60% 40% 60% 40%; }
+}
+
+/* Experiment 4: Staggered Dots */
+.dots-grid { display:grid;grid-template-columns:repeat(8,14px);gap:6px; }
+.dot-cell { width:14px;height:14px;border-radius:50%;background:var(--accent);opacity:.15; }
+.exp-card:hover .dot-cell { animation:dotPop .4s ease both; }
+.dot-cell:nth-child(1){animation-delay:.00s}.dot-cell:nth-child(2){animation-delay:.04s}.dot-cell:nth-child(3){animation-delay:.08s}.dot-cell:nth-child(4){animation-delay:.12s}.dot-cell:nth-child(5){animation-delay:.16s}.dot-cell:nth-child(6){animation-delay:.20s}.dot-cell:nth-child(7){animation-delay:.24s}.dot-cell:nth-child(8){animation-delay:.28s}.dot-cell:nth-child(n+9){animation-delay:.32s}.dot-cell:nth-child(n+17){animation-delay:.4s}
+@keyframes dotPop { 50%{opacity:1;transform:scale(1.5)} 100%{opacity:.3;transform:scale(1)} }
+
+/* Experiment 5: CSS Waves */
+.waves-demo { width:100%;position:absolute;bottom:0;left:0; }
+.wave-bar { display:flex;gap:3px;align-items:flex-end;justify-content:center;height:80px;padding-bottom:10px; }
+.wv { width:6px;border-radius:4px 4px 0 0;background:var(--accent);animation:waveUp 1.2s ease-in-out infinite; }
+.wv:nth-child(1){height:20px;animation-delay:0s}.wv:nth-child(2){height:35px;animation-delay:.1s}.wv:nth-child(3){height:55px;animation-delay:.2s}.wv:nth-child(4){height:40px;animation-delay:.3s}.wv:nth-child(5){height:65px;animation-delay:.4s}.wv:nth-child(6){height:45px;animation-delay:.3s}.wv:nth-child(7){height:55px;animation-delay:.2s}.wv:nth-child(8){height:35px;animation-delay:.1s}.wv:nth-child(9){height:20px;animation-delay:0s}
+@keyframes waveUp { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.6)} }
+
+/* Experiment 6: Circular Progress */
+.circular-prog { width:120px;height:120px;position:relative;display:flex;align-items:center;justify-content:center; }
+.cp-svg { position:absolute;top:0;left:0;transform:rotate(-90deg); }
+.cp-track { fill:none;stroke:var(--surface2);stroke-width:6; }
+.cp-fill { fill:none;stroke:url(#pg);stroke-width:6;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:283;transition:stroke-dashoffset 2s ease; }
+.cp-text { font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--accent); }
+.exp-card:hover .cp-fill { stroke-dashoffset:70; }
+
+/* ── CANVAS SKETCHES ── */
+.canvas-section { padding:80px var(--gutter);background:var(--bg2); }
+.canvas-grid { display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;max-width:1280px;margin-left:auto;margin-right:auto; }
+.canvas-card { background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden; }
+.canvas-wrap { position:relative;aspect-ratio:16/9;background:var(--bg);cursor:none; }
+canvas { width:100%;height:100%;display:block; }
+.canvas-label { padding:.9rem 1.2rem;font-family:var(--mono);font-size:.75rem;color:var(--text3);border-top:1px solid var(--border); }
+
+/* ── TECH RADAR ── */
+.radar-section { padding:100px var(--gutter);background:var(--bg3);text-align:center; }
+.radar-wrap { max-width:700px;margin:3rem auto 0;position:relative; }
+.radar-svg { width:100%;max-width:500px; }
+
+@media(max-width:960px){.exp-grid{grid-template-columns:1fr 1fr;}.canvas-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.exp-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="pg-transition"></div>
+<div id="cursor"></div><div id="cursor-ring"></div>
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg">Done!</span></div>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo" onclick="navTo(event,'index.html')"><div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="16 18 22 12 16 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><polyline points="8 6 2 12 8 18" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round"/></svg></div><span>Rahul<span class="logo-accent">Tak</span></span></a>
+  <ul class="nav-links"><li><a href="index.html" onclick="navTo(event,'index.html')">Home</a></li><li><a href="about.html" onclick="navTo(event,'about.html')">About</a></li><li><a href="services.html" onclick="navTo(event,'services.html')">Services</a></li><li><a href="work.html" onclick="navTo(event,'work.html')">Work</a></li><li><a href="experience.html" onclick="navTo(event,'experience.html')">Experience</a></li><li><a href="contact.html" onclick="navTo(event,'contact.html')">Contact</a></li><li><a href="lab.html" class="nav-active nav-special">✦ Lab</a></li></ul>
+  <div class="nav-right"><div class="theme-switcher"><button class="th-btn" onclick="setTheme('dark')" id="th-dark"><i class="fas fa-moon"></i></button><button class="th-btn" onclick="setTheme('light')" id="th-light"><i class="fas fa-sun"></i></button><button class="th-btn" onclick="setTheme('blue')" id="th-blue"><i class="fas fa-droplet"></i></button></div><a href="contact.html" class="btn btn-primary nav-hire" onclick="navTo(event,'contact.html')">Hire Me</a><button class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button></div>
+</nav>
+
+<!-- LAB HERO -->
+<div class="lab-hero">
+  <canvas id="particle-canvas"></canvas>
+  <div class="lab-hero-inner">
+    <div class="lab-title">
+      <span class="t1">Creative</span>
+      <span class="t2">Lab</span>
+      <span class="t3">CSS Experiments · Canvas Art · Motion Studies</span>
+    </div>
+    <p class="lab-sub">Where I push boundaries with CSS animations, Canvas APIs, and creative coding. Pure experiments — no frameworks, just code.</p>
+    <div class="lab-chips">
+      <span class="lab-chip">CSS Animations</span>
+      <span class="lab-chip">Canvas API</span>
+      <span class="lab-chip">SVG Morphing</span>
+      <span class="lab-chip">Particle Systems</span>
+      <span class="lab-chip">Generative Art</span>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIMENTS -->
+<section class="experiments-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-head reveal-up" style="text-align:center;margin-bottom:1rem">
+      <div class="s-label">CSS Experiments</div>
+      <h2 class="s-title">Pure <span class="accent-text">CSS Magic</span></h2>
+      <p class="s-sub" style="margin:0 auto">No canvas, no JS — just the power of CSS animations and geometry.</p>
+    </div>
+    <div class="exp-grid">
+      <!-- Globe -->
+      <div class="exp-card reveal-up" style="--delay:0s">
+        <div class="exp-preview"><div class="globe-wrap"><div class="globe"></div></div></div>
+        <div class="exp-body"><h3 class="exp-title">CSS 3D Globe</h3><p class="exp-desc">A pure-CSS animated globe using radial gradients, border-radius tricks, and layered pseudo-elements.</p><span class="exp-tag">CSS Only</span></div>
+      </div>
+      <!-- Neon -->
+      <div class="exp-card reveal-up" style="--delay:.1s">
+        <div class="exp-preview"><div class="neon-demo"><span class="neon">&lt;Neon/&gt;</span><br/><span style="color:var(--text3);font-size:.85rem;display:block;margin-top:.4rem">text-shadow pulsing</span></div></div>
+        <div class="exp-body"><h3 class="exp-title">Neon Glow Effect</h3><p class="exp-desc">CSS text-shadow animation creating a realistic neon sign flicker using keyframes and layered shadows.</p><span class="exp-tag">CSS Only</span></div>
+      </div>
+      <!-- Morph -->
+      <div class="exp-card reveal-up" style="--delay:.2s">
+        <div class="exp-preview"><div class="morph-wrap"><div class="morph"></div></div></div>
+        <div class="exp-body"><h3 class="exp-title">Liquid Shape Morph</h3><p class="exp-desc">CSS border-radius animation morphing between organic blob shapes — creating a mesmerizing liquid feel.</p><span class="exp-tag">CSS Only</span></div>
+      </div>
+      <!-- Dots -->
+      <div class="exp-card reveal-up" style="--delay:0s">
+        <div class="exp-preview">
+          <div class="dots-grid">
+            <div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div>
+            <div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div>
+            <div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div><div class="dot-cell"></div>
+          </div>
+        </div>
+        <div class="exp-body"><h3 class="exp-title">Staggered Dot Grid</h3><p class="exp-desc">Hover to trigger a wave of dot animations using nth-child selectors and animation-delay cascades.</p><span class="exp-tag">CSS + Hover</span></div>
+      </div>
+      <!-- Waves -->
+      <div class="exp-card reveal-up" style="--delay:.1s">
+        <div class="exp-preview" style="background:var(--bg)">
+          <div class="waves-demo"><div class="wave-bar"><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div></div></div>
+        </div>
+        <div class="exp-body"><h3 class="exp-title">Audio Visualizer</h3><p class="exp-desc">CSS-only audio bar animation simulating an equalizer/waveform using scaleY transforms and staggered delays.</p><span class="exp-tag">CSS Only</span></div>
+      </div>
+      <!-- Circular Progress -->
+      <div class="exp-card reveal-up" style="--delay:.2s">
+        <div class="exp-preview">
+          <div class="circular-prog">
+            <svg class="cp-svg" viewBox="0 0 100 100" width="120" height="120">
+              <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--accent2)"/></linearGradient></defs>
+              <circle class="cp-track" cx="50" cy="50" r="45"/>
+              <circle class="cp-fill" cx="50" cy="50" r="45"/>
+            </svg>
+            <span class="cp-text">75%</span>
+          </div>
+        </div>
+        <div class="exp-body"><h3 class="exp-title">SVG Circular Progress</h3><p class="exp-desc">Hover to animate. SVG stroke-dashoffset animation creating smooth circular progress indicators.</p><span class="exp-tag">SVG + CSS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE CANVAS -->
+<section class="canvas-section">
+  <div style="text-align:center;margin-bottom:1rem" class="reveal-up">
+    <div class="s-label">Canvas API</div>
+    <h2 class="s-title">Interactive <span class="accent-text">Sketches</span></h2>
+    <p class="s-sub" style="margin:0 auto">Move your mouse over the canvases to interact with generative visuals.</p>
+  </div>
+  <div class="canvas-grid">
+    <div class="canvas-card reveal-up" style="--delay:0s">
+      <div class="canvas-wrap"><canvas id="c1"></canvas></div>
+      <div class="canvas-label">// Move mouse — particle field that follows your cursor</div>
+    </div>
+    <div class="canvas-card reveal-up" style="--delay:.1s">
+      <div class="canvas-wrap"><canvas id="c2"></canvas></div>
+      <div class="canvas-label">// Move mouse — Lissajous curve generator</div>
+    </div>
+  </div>
+</section>
+
+<!-- RADAR CHART -->
+<section class="radar-section reveal-up">
+  <div class="s-label">Skills Radar</div>
+  <h2 class="s-title">Technical <span class="accent-text">Proficiency</span></h2>
+  <div class="radar-wrap">
+    <svg class="radar-svg" viewBox="0 0 400 400" id="radar-svg"></svg>
+  </div>
+</section>
+
+<footer id="footer"></footer>
+<script src="shared.js"></script>
+<script>
+// ── PARTICLE CANVAS (Hero) ──
+const heroCanvas = document.getElementById('particle-canvas');
+const hCtx = heroCanvas.getContext('2d');
+let particles = [];
+let mouseX = 200, mouseY = 200;
+
+function resizeHeroCanvas() {
+  heroCanvas.width = window.innerWidth;
+  heroCanvas.height = window.innerHeight;
+}
+resizeHeroCanvas();
+window.addEventListener('resize', resizeHeroCanvas);
+heroCanvas.parentElement.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * heroCanvas.width;
+    this.y = Math.random() * heroCanvas.height;
+    this.vx = (Math.random() - .5) * .5;
+    this.vy = (Math.random() - .5) * .5;
+    this.size = Math.random() * 2 + .5;
+    this.opacity = Math.random() * .5 + .1;
+    this.color = Math.random() > .5 ? '#3882ff' : '#60a5fa';
+  }
+  update() {
+    const dx = mouseX - this.x, dy = mouseY - this.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 120) { this.vx += dx / dist * .02; this.vy += dy / dist * .02; }
+    this.vx *= .98; this.vy *= .98;
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > heroCanvas.width || this.y < 0 || this.y > heroCanvas.height) this.reset();
+  }
+  draw() {
+    hCtx.beginPath();
+    hCtx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    hCtx.fillStyle = this.color;
+    hCtx.globalAlpha = this.opacity;
+    hCtx.fill();
+  }
+}
+
+for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+function drawConnections() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i+1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 80) {
+        hCtx.beginPath();
+        hCtx.moveTo(particles[i].x, particles[i].y);
+        hCtx.lineTo(particles[j].x, particles[j].y);
+        hCtx.strokeStyle = '#3882ff';
+        hCtx.globalAlpha = (1 - d/80) * .15;
+        hCtx.lineWidth = .5;
+        hCtx.stroke();
+      }
+    }
+  }
+}
+
+function animHero() {
+  hCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+  hCtx.globalAlpha = 1;
+  drawConnections();
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animHero);
+}
+animHero();
+
+// ── CANVAS 1: Particle Trail ──
+const c1 = document.getElementById('c1');
+const ctx1 = c1.getContext('2d');
+let c1mx = 0, c1my = 0, c1pts = [];
+function resizeC1() { c1.width = c1.parentElement.offsetWidth; c1.height = c1.parentElement.offsetHeight; }
+resizeC1();
+c1.parentElement.addEventListener('mousemove', e => { const r=c1.getBoundingClientRect(); c1mx=e.clientX-r.left; c1my=e.clientY-r.top; c1pts.push({x:c1mx,y:c1my,age:0}); });
+function animC1() {
+  ctx1.fillStyle = 'rgba(5,16,31,.12)'; ctx1.fillRect(0,0,c1.width,c1.height);
+  c1pts = c1pts.filter(p => p.age < 60);
+  c1pts.forEach(p => {
+    const r = (1 - p.age/60) * 6;
+    const a = 1 - p.age/60;
+    ctx1.beginPath(); ctx1.arc(p.x, p.y, r, 0, Math.PI*2);
+    ctx1.fillStyle = `rgba(56,130,255,${a * .8})`; ctx1.fill();
+    p.age++;
+  });
+  requestAnimationFrame(animC1);
+}
+animC1();
+
+// ── CANVAS 2: Lissajous ──
+const c2 = document.getElementById('c2');
+const ctx2 = c2.getContext('2d');
+let lT = 0, lA = 3, lB = 2, lPoints = [];
+function resizeC2() { c2.width = c2.parentElement.offsetWidth; c2.height = c2.parentElement.offsetHeight; }
+resizeC2();
+c2.parentElement.addEventListener('mousemove', e => { const r=c2.getBoundingClientRect(); const nx=(e.clientX-r.left)/c2.width; lA = 1 + nx * 5; });
+function animC2() {
+  ctx2.fillStyle = 'rgba(5,16,31,.06)'; ctx2.fillRect(0,0,c2.width,c2.height);
+  const cx=c2.width/2, cy=c2.height/2, r=Math.min(cx,cy)*.75;
+  const x = cx + r * Math.sin(lA * lT);
+  const y = cy + r * Math.sin(lB * lT + Math.PI/2);
+  lPoints.push({x,y,t:lT});
+  if (lPoints.length > 800) lPoints.shift();
+  ctx2.beginPath();
+  lPoints.forEach((p,i) => {
+    const a = i / lPoints.length;
+    ctx2.strokeStyle = `rgba(96,165,250,${a*.7})`;
+    ctx2.lineWidth = 1.5;
+    if (i === 0) ctx2.moveTo(p.x, p.y); else ctx2.lineTo(p.x, p.y);
+  });
+  ctx2.stroke();
+  lT += .02; requestAnimationFrame(animC2);
+}
+animC2();
+
+// ── RADAR CHART ──
+window.addEventListener('DOMContentLoaded', () => {
+  const svg = document.getElementById('radar-svg');
+  if (!svg) return;
+  const cx=200, cy=210, r=150;
+  const skills = [
+    { label:'React/Next', val:.95 },
+    { label:'Node.js', val:.88 },
+    { label:'TypeScript', val:.85 },
+    { label:'UI/UX Design', val:.82 },
+    { label:'MongoDB', val:.84 },
+    { label:'CSS/Tailwind', val:.96 },
+    { label:'DevOps/AWS', val:.74 },
+    { label:'GraphQL', val:.78 },
+  ];
+  const n = skills.length;
+  const angle = (i) => (i / n) * Math.PI * 2 - Math.PI/2;
+
+  // Web rings
+  [.25,.5,.75,1].forEach(f => {
+    let d = '';
+    skills.forEach((_, i) => {
+      const a = angle(i);
+      const x = cx + r*f * Math.cos(a);
+      const y = cy + r*f * Math.sin(a);
+      d += (i===0?'M':'L') + x + ' ' + y;
+    });
+    d += 'Z';
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke','rgba(56,130,255,.15)');
+    path.setAttribute('stroke-width','1');
+    svg.appendChild(path);
+  });
+
+  // Axes
+  skills.forEach((_, i) => {
+    const a = angle(i);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', cx + r * Math.cos(a));
+    line.setAttribute('y2', cy + r * Math.sin(a));
+    line.setAttribute('stroke','rgba(56,130,255,.1)');
+    line.setAttribute('stroke-width','1');
+    svg.appendChild(line);
+  });
+
+  // Data polygon
+  let dataD = '';
+  skills.forEach((s,i) => {
+    const a = angle(i);
+    const x = cx + r * s.val * Math.cos(a);
+    const y = cy + r * s.val * Math.sin(a);
+    dataD += (i===0?'M':'L') + x + ' ' + y;
+  });
+  dataD += 'Z';
+  const fill = document.createElementNS('http://www.w3.org/2000/svg','path');
+  fill.setAttribute('d', dataD);
+  fill.setAttribute('fill','rgba(56,130,255,.18)');
+  fill.setAttribute('stroke','#3882ff');
+  fill.setAttribute('stroke-width','2');
+  svg.appendChild(fill);
+
+  // Labels
+  skills.forEach((s,i) => {
+    const a = angle(i);
+    const lx = cx + (r + 24) * Math.cos(a);
+    const ly = cy + (r + 24) * Math.sin(a);
+    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', lx); txt.setAttribute('y', ly);
+    txt.setAttribute('fill','rgba(224,238,255,.7)');
+    txt.setAttribute('font-size','11');
+    txt.setAttribute('font-family','JetBrains Mono');
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('dominant-baseline','middle');
+    txt.textContent = s.label;
+    svg.appendChild(txt);
+
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx', cx + r * s.val * Math.cos(a));
+    dot.setAttribute('cy', cy + r * s.val * Math.sin(a));
+    dot.setAttribute('r','4');
+    dot.setAttribute('fill','#3882ff');
+    dot.setAttribute('stroke','#fff');
+    dot.setAttribute('stroke-width','1.5');
+    svg.appendChild(dot);
+  });
+});
+</script>
+</body></html>
