@@ -12,7 +12,7 @@ function setTheme(t) {
   if (btn) btn.classList.add('active');
 }
 (function initTheme() {
-  const saved = localStorage.getItem('theme') || 'dark';
+  const saved = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   window.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('th-' + saved);
