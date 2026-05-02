@@ -1755,6 +1755,9 @@ footer {
     section {
         padding: 70px 2rem;
     }
+    .section1 {
+        padding: 70px 1rem !important;
+    }
 
     #home {
         padding: 100px 2rem 60px;
