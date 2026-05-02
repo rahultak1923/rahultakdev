@@ -10,7 +10,457 @@
 
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="chatbot.css">
+<!-- <link rel="stylesheet" href="shared.css"> -->
 </head>
+<style>
+    .contact-section {
+      padding: 80px var(--gutter) 100px;
+      background: var(--bg);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* CONTACT INFO */
+    .contact-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.4rem;
+      position: sticky;
+      top: 90px;
+    }
+
+    .ci-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .ci-sub {
+      color: var(--text2);
+      font-size: .88rem;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .ci-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .ci-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .ci-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+
+    .ci-item:hover .ci-icon {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 16px var(--glow);
+    }
+
+    .ci-label {
+      font-size: .72rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 2px;
+    }
+
+    .ci-val {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .ci-val a {
+      color: var(--text);
+      transition: color .2s;
+    }
+
+    .ci-val a:hover {
+      color: var(--accent);
+    }
+
+    /* SOCIAL */
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: .5rem;
+    }
+
+    .soc-btn {
+      width: 42px;
+      height: 42px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--text2);
+      transition: all .3s;
+      text-decoration: none;
+    }
+
+    .soc-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--glow);
+    }
+
+    /* STATUS BADGE */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, .1);
+      border: 1px solid rgba(34, 197, 94, .25);
+      color: #22c55e;
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-size: .78rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse-green 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+      50% {
+        opacity: .4;
+        transform: scale(1.5);
+      }
+    }
+
+    /* CONTACT FORM */
+    .contact-form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.4rem;
+    }
+
+    .cf-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .cf-sub {
+      color: var(--text2);
+      font-size: .88rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label .req {
+      color: var(--accent);
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+      background: var(--bg3);
+    }
+
+    .form-control::placeholder {
+      color: var(--text3);
+    }
+
+    textarea.form-control {
+      height: 130px;
+      resize: none;
+    }
+
+    /* SELECT */
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a9cc4' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    select.form-control option {
+      background: var(--bg2);
+      color: var(--text);
+    }
+
+    /* SUBMIT BUTTON */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #1a5cff 0%, #1e40af 100%);
+      color: #fff;
+      padding: 15px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: .95rem;
+      cursor: none;
+      box-shadow: 0 0 28px var(--glow);
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, .15);
+      transform: translateX(-100%);
+      transition: transform .4s;
+    }
+
+    .btn-submit:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 40px var(--glow-strong);
+    }
+
+    .btn-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* SUCCESS / ERROR STATES */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(34, 197, 94, .1);
+      border: 2px solid rgba(34, 197, 94, .3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: #22c55e;
+    }
+
+    .success-title {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .success-text {
+      color: var(--text2);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+
+    .success-email {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* FIELD VALIDATION */
+    .form-control.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, .15);
+    }
+
+    .field-err {
+      font-size: .72rem;
+      color: #ef4444;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .field-err.show {
+      display: block;
+    }
+
+    /* MAP/LOCATION CARD */
+    .location-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 3rem;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .loc-info {
+      padding: 2rem;
+    }
+
+    .loc-map {
+      background: linear-gradient(135deg, var(--surface2), var(--bg3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loc-map svg {
+      width: 80%;
+      height: 80%;
+      opacity: .25;
+    }
+
+    .map-pin {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      animation: pinBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes pinBounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .map-pin-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--glow-strong);
+    }
+
+    .map-pin-icon i {
+      transform: rotate(45deg);
+      color: #fff;
+      font-size: .9rem;
+    }
+
+    .map-pin-label {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-family: var(--mono);
+      color: var(--accent2);
+      white-space: nowrap;
+    }
+
+    @media(max-width:960px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location-card {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info-card {
+        position: static;
+      }
+    }
+
+    @media(max-width:600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 <body>
 
 <!-- CURSOR -->
@@ -28,12 +478,12 @@
   </a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
-    <li><a href="/about.html">About</a></li>
-    <li><a href="/services.html">Services</a></li>
-    <li><a href="/work.html">Work</a></li>
-    <li><a href="/experience.html">Experience</a></li>
-    <li><a href="/media.html">Media</a></li>
-    <li><a href="/contact.html">Contact</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Work</a></li>
+    <!-- <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li> -->
+    <!-- <li><a href="#media">Media</a></li> -->
+    <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
     <div class="theme-switcher">
@@ -41,20 +491,20 @@
       <button class="theme-btn " onclick="setTheme('dark')" title="Dark" id="btn-dark"><i class="fas fa-moon"></i></button>
       <button class="theme-btn" onclick="setTheme('blue')" title="Blue" id="btn-blue"><i class="fas fa-droplet"></i></button>
     </div>
-    <a href="/contact.html" class="btn-hire">Hire Me</a>
+    <a href="#contact " class="btn-hire">Hire Me</a>
     <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
-  <a href="/index.html" onclick="closeMobileMenu()">Home</a>
-  <a href="/about.html" onclick="closeMobileMenu()">About</a>
-  <a href="/services.html" onclick="closeMobileMenu()">Services</a>
-  <a href="/work.html" onclick="closeMobileMenu()">Work</a>
-  <a href="/experience.html" onclick="closeMobileMenu()">Experience</a>
-  <a href="/media.html" onclick="closeMobileMenu()">Media</a>
-  <a href="/contact.html" onclick="closeMobileMenu()">Contact</a>
+  <a href="/" onclick="closeMobileMenu()">Home</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#services" onclick="closeMobileMenu()">Work</a>
+  <!-- <a href="#work" onclick="closeMobileMenu()">Work</a>
+  <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+  <a href="#media" onclick="closeMobileMenu()">Media</a> -->
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
 
   <!-- 👇 NEW -->
   <div class="mobile-theme-switcher">
@@ -78,14 +528,14 @@
     </div>
     <h1 class="hero-title">
       Full-Stack <span class="line2">Engineer &amp;</span>
-      <span class="line3">Frontend Specialist</span>
+      <h1 class="line3" style="color: linear-gradient(135deg, #4e586e, #291086) !important; font-size: 2.8rem;">Frontend Specialist</h1>
     </h1>
     <p class="hero-sub">
       Crafting high-performance web applications and pixel-perfect interfaces with React, Node.js, and modern CSS — turning complex problems into elegant digital experiences.
     </p>
     <div class="hero-cta">
-      <a href="/work.html" class="btn-primary"><i class="fas fa-rocket"></i> View My Work</a>
-      <a href="/contact.html" class="btn-secondary"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+      <a href="#services" class="btn-primary"><i class="fas fa-rocket"></i> View My Work</a>
+      <a href="#contact" class="btn-secondary"><i class="fas fa-paper-plane"></i> Get In Touch</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -110,7 +560,7 @@
           <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
           <span class="code-filename">App.tsx</span>
         </div>
-        <div class="code-body">
+        <!-- <div class="code-body">
           <div><span class="c-kw">import</span> <span class="c-acc">React</span> <span class="c-kw">from</span> <span class="c-str">'react'</span>;</div>
           <div><span class="c-kw">import</span> <span class="c-acc">{ useState }</span> <span class="c-kw">from</span> <span class="c-str">'react'</span>;</div>
           <br/>
@@ -127,7 +577,40 @@
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="c-fn">div</span>&gt;</div>
           <div>&nbsp;&nbsp;);</div>
           <div>};<span class="typing-cursor">|</span></div>
-        </div>
+        </div> -->
+      
+        <div class="code-body">
+
+  <div><span class="c-cm">// Rahul Tak — Full Stack Developer</span></div>
+
+  <div><span class="c-kw">const</span> <span class="c-fn">developer</span> = {</div>
+
+  <div>&nbsp;&nbsp;<span class="c-acc">name</span>: <span class="c-str">'Rahul Tak'</span>,</div>
+  <div>&nbsp;&nbsp;<span class="c-acc">role</span>: <span class="c-str">'Full Stack Developer'</span>,</div>
+  <div>&nbsp;&nbsp;<span class="c-acc">experience</span>: <span class="c-str">'2 Years'</span>,</div>
+
+  <div>&nbsp;&nbsp;<span class="c-acc">skills</span>: [</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">'Node.js'</span>, <span class="c-str">'Express.js'</span>,</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">'React.js'</span>, <span class="c-str">'MongoDB'</span>,</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">'WebSockets'</span>, <span class="c-str">'REST APIs'</span></div>
+  <div>&nbsp;&nbsp;],</div>
+
+  <div>&nbsp;&nbsp;<span class="c-acc">currentCompany</span>: <span class="c-str">'RentalPe'</span>,</div>
+  <div>&nbsp;&nbsp;<span class="c-acc">location</span>: <span class="c-str">'Jaipur, India'</span>,</div>
+
+  <div>&nbsp;&nbsp;<span class="c-fn">build</span>: () => {</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-str">'Scalable Web Applications 🚀'</span>;</div>
+  <div>&nbsp;&nbsp;}</div>
+
+  <div>};</div>
+
+  <br/>
+
+  <div><span class="c-cm">// Let's build something amazing!</span></div>
+
+  <div><span class="typing-cursor">|</span></div>
+
+</div>
       </div>
       <div class="floating-tags ftag1"><i class="fab fa-react" style="color:#61dafb"></i> React 18</div>
       <div class="floating-tags ftag2"><i class="fab fa-node-js" style="color:#68a063"></i> Node.js</div>
@@ -191,7 +674,7 @@
         </div>
       </div>
       <div class="about-accent-box">
-        <span class="num">5+</span>
+        <span class="num">2+</span>
         <span class="lbl">Years of<br>Experience</span>
       </div>
     </div>
@@ -202,13 +685,20 @@
       <p class="section-sub">
   I'm Rahul Tak, a Full-Stack Developer based in Jaipur, India with 2 years of experience building scalable web applications. I specialize in backend development using Node.js and MongoDB, along with creating responsive frontend interfaces using React.js. I enjoy solving real-world problems and continuously learning new technologies to build efficient systems.
 </p>
-      <ul class="about-list">
+      <!-- <ul class="about-list">
         <li><i class="fas fa-check-circle"></i> 5+ years building full-stack web applications with React &amp; Node.js</li>
         <li><i class="fas fa-check-circle"></i> Expert in responsive UI design with Tailwind CSS &amp; Bootstrap</li>
         <li><i class="fas fa-check-circle"></i> Deep understanding of UX principles, accessibility, and design systems</li>
         <li><i class="fas fa-check-circle"></i> Experience with REST APIs, GraphQL, MongoDB, and PostgreSQL</li>
         <li><i class="fas fa-check-circle"></i> Proficient with DevOps: Docker, CI/CD pipelines, and AWS deployments</li>
-      </ul>
+      </ul> -->
+       <ul class="about-list">
+    <li><i class="fas fa-check-circle"></i> 2+ years of experience building full-stack web applications using React.js & Node.js</li>
+    <li><i class="fas fa-check-circle"></i> Strong expertise in responsive UI development with Tailwind CSS & Bootstrap</li>
+    <li><i class="fas fa-check-circle"></i> Experience in building SaaS products like Rentellar (inventory & rental management system)</li>
+    <li><i class="fas fa-check-circle"></i> Skilled in REST APIs, MongoDB, and backend architecture</li>
+    <li><i class="fas fa-check-circle"></i> Passionate about clean UI, performance optimization, and real-world problem solving</li>
+  </ul>
       <div class="skills-grid">
         <!-- <span class="skill-tag">React.js</span>
         <span class="skill-tag">Node.js</span>
@@ -264,8 +754,8 @@
 <!-- ======== SERVICES ======== -->
 <section id="services">
   <div style="text-align:center;margin-bottom:1rem" class="reveal">
-    <div class="section-label" style="justify-content:center;margin:0 auto 1rem">What I Offer</div>
-    <h2 class="section-title">My <span style="color:var(--accent)">Services</span></h2>
+    <div class="section-label" style="justify-content:center;margin:0 auto 1rem">What I Skill's</div>
+    <h2 class="section-title">My <span style="color:var(--accent)">Skill's</span></h2>
     <p class="section-sub" style="margin:0 auto">Comprehensive solutions from concept to deployment — delivering quality at every stage of the development lifecycle.</p>
   </div>
 
@@ -322,7 +812,7 @@
 </section>
 
 <!-- ======== PORTFOLIO ======== -->
-<section id="portfolio">
+<!-- <section id="portfolio">
   <div class="reveal">
     <div class="section-label">My Work</div>
     <h2 class="section-title">Featured <span style="color:var(--accent)">Projects</span></h2>
@@ -337,7 +827,6 @@
   </div>
 
   <div class="portfolio-grid reveal" id="portfolio-grid">
-    <!-- Project 1 -->
     <div class="project-card" data-cat="fullstack">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -364,7 +853,6 @@
         </div>
       </div>
     </div>
-    <!-- Project 2 -->
     <div class="project-card" data-cat="frontend">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -389,7 +877,6 @@
         </div>
       </div>
     </div>
-    <!-- Project 3 -->
     <div class="project-card" data-cat="ui">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -415,7 +902,6 @@
         </div>
       </div>
     </div>
-    <!-- Project 4 -->
     <div class="project-card" data-cat="fullstack">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -441,7 +927,6 @@
         </div>
       </div>
     </div>
-    <!-- Project 5 -->
     <div class="project-card" data-cat="frontend">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -465,7 +950,6 @@
         </div>
       </div>
     </div>
-    <!-- Project 6 -->
     <div class="project-card" data-cat="ui">
       <div class="project-thumb">
         <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -490,10 +974,11 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ======== EXPERIENCE ======== -->
-<section id="experience">
+
+<!-- <section id="experience">
   <div class="reveal">
     <div class="section-label">Career</div>
     <h2 class="section-title">Work <span style="color:var(--accent)">Experience</span></h2>
@@ -620,10 +1105,11 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ======== MEDIA / YOUTUBE ======== -->
-<section id="media">
+
+<!-- <section id="media">
   <div class="reveal">
     <div class="section-label">Content</div>
     <h2 class="section-title">Videos &amp; <span style="color:var(--accent)">Tutorials</span></h2>
@@ -631,7 +1117,6 @@
   </div>
 
   <div class="media-grid reveal">
-    <!-- Video Card 1 — Real YouTube embed -->
     <div class="video-card">
       <div class="video-thumb">
         <a href="https://www.youtube.com/watch?v=bMknfKXIFA8" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;inset:0">
@@ -644,7 +1129,6 @@
         <div class="video-sub"><i class="fab fa-youtube" style="color:#ff0000"></i> &nbsp;YouTube Tutorial · 48 min</div>
       </div>
     </div>
-    <!-- Video Card 2 -->
     <div class="video-card">
       <div class="video-thumb">
         <a href="https://www.youtube.com/watch?v=SqcY0GlETPk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;inset:0">
@@ -657,7 +1141,6 @@
         <div class="video-sub"><i class="fab fa-youtube" style="color:#ff0000"></i> &nbsp;YouTube Tutorial · 3h 20min</div>
       </div>
     </div>
-    <!-- Video Card 3 -->
     <div class="video-card">
       <div class="video-thumb">
         <a href="https://www.youtube.com/watch?v=GnodscC2p-A" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;inset:0">
@@ -672,100 +1155,101 @@
     </div>
   </div>
 
-  <!-- Testimonials -->
-  <!-- <div style="margin-top:4rem" class="reveal">
-    <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:2rem;text-align:center">Client <span style="color:var(--accent)">Testimonials</span></h3>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
-        <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
-        <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Delivered an exceptional e-commerce platform ahead of schedule. The UI is stunning and the performance benchmarks exceeded our expectations."</p>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">AK</div>
-          <div><div style="font-weight:600;font-size:0.85rem">Arjun Kumar</div><div style="font-size:0.72rem;color:var(--text3)">CEO, ShopNow India</div></div>
-        </div>
-      </div>
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
-        <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
-        <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Transformed our Figma designs into a flawless, animated web app. Incredible attention to detail and excellent communication throughout."</p>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">PS</div>
-          <div><div style="font-weight:600;font-size:0.85rem">Priya Sharma</div><div style="font-size:0.72rem;color:var(--text3)">Product Manager, FinTech Startup</div></div>
-        </div>
-      </div>
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
-        <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
-        <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Our page load dropped from 8s to 1.2s after the performance audit and optimization. ROI was 10x within the first month."</p>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#b45309);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">RV</div>
-          <div><div style="font-weight:600;font-size:0.85rem">Rohit Verma</div><div style="font-size:0.72rem;color:var(--text3)">CTO, Logistics Platform</div></div>
-        </div>
+</section> -->
+
+<!-- Testimonials -->
+<!-- <div style="margin-top:4rem" class="reveal">
+  <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:2rem;text-align:center">Client <span style="color:var(--accent)">Testimonials</span></h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
+      <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
+      <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Delivered an exceptional e-commerce platform ahead of schedule. The UI is stunning and the performance benchmarks exceeded our expectations."</p>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">AK</div>
+        <div><div style="font-weight:600;font-size:0.85rem">Arjun Kumar</div><div style="font-size:0.72rem;color:var(--text3)">CEO, ShopNow India</div></div>
       </div>
     </div>
-  </div> -->
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
+      <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
+      <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Transformed our Figma designs into a flawless, animated web app. Incredible attention to detail and excellent communication throughout."</p>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">PS</div>
+        <div><div style="font-weight:600;font-size:0.85rem">Priya Sharma</div><div style="font-size:0.72rem;color:var(--text3)">Product Manager, FinTech Startup</div></div>
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all 0.3s">
+      <div style="color:var(--accent);margin-bottom:1rem;font-size:1.2rem">★★★★★</div>
+      <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:1rem">"Our page load dropped from 8s to 1.2s after the performance audit and optimization. ROI was 10x within the first month."</p>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#b45309);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:0.85rem">RV</div>
+        <div><div style="font-weight:600;font-size:0.85rem">Rohit Verma</div><div style="font-size:0.72rem;color:var(--text3)">CTO, Logistics Platform</div></div>
+      </div>
+    </div>
+  </div>
+</div> -->
 
 <div style="margin-top:4rem" class="reveal">
-  <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:2rem;text-align:center">
-    Client <span style="color:var(--accent)">Testimonials</span>
-  </h3>
+<h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:2rem;text-align:center">
+  Client <span style="color:var(--accent)">Testimonials</span>
+</h3>
 
-  <div class="testimonial-carousel">
+<div class="testimonial-carousel">
 
-    <div class="testimonial-track">
+  <div class="testimonial-track">
 
-      <!-- Slide 1 -->
-      <div class="testimonial-slide active">
-        <div class="card">
-          <div class="stars">★★★★★</div>
-          <p>"Delivered an exceptional e-commerce platform ahead of schedule. The UI is stunning and the performance benchmarks exceeded our expectations."</p>
-          <div class="user">
-            <div class="avatar">AK</div>
-            <div>
-              <div class="name">Arjun Kumar</div>
-              <div class="role">CEO, ShopNow India</div>
-            </div>
+    <!-- Slide 1 -->
+    <div class="testimonial-slide active">
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p>"Delivered an exceptional e-commerce platform ahead of schedule. The UI is stunning and the performance benchmarks exceeded our expectations."</p>
+        <div class="user">
+          <div class="avatar">AK</div>
+          <div>
+            <div class="name">Arjun Kumar</div>
+            <div class="role">CEO, ShopNow India</div>
           </div>
         </div>
       </div>
-
-      <!-- Slide 2 -->
-      <div class="testimonial-slide">
-        <div class="card">
-          <div class="stars">★★★★★</div>
-          <p>"Transformed our Figma designs into a flawless, animated web app. Incredible attention to detail and excellent communication throughout."</p>
-          <div class="user">
-            <div class="avatar green">PS</div>
-            <div>
-              <div class="name">Priya Sharma</div>
-              <div class="role">Product Manager, FinTech Startup</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="testimonial-slide">
-        <div class="card">
-          <div class="stars">★★★★★</div>
-          <p>"Our page load dropped from 8s to 1.2s after the performance audit and optimization. ROI was 10x within the first month."</p>
-          <div class="user">
-            <div class="avatar orange">RV</div>
-            <div>
-              <div class="name">Rohit Verma</div>
-              <div class="role">CTO, Logistics Platform</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Controls -->
-    <button class="prev">❮</button>
-    <button class="next">❯</button>
+    <!-- Slide 2 -->
+    <div class="testimonial-slide">
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p>"Transformed our Figma designs into a flawless, animated web app. Incredible attention to detail and excellent communication throughout."</p>
+        <div class="user">
+          <div class="avatar green">PS</div>
+          <div>
+            <div class="name">Priya Sharma</div>
+            <div class="role">Product Manager, FinTech Startup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="testimonial-slide">
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p>"Our page load dropped from 8s to 1.2s after the performance audit and optimization. ROI was 10x within the first month."</p>
+        <div class="user">
+          <div class="avatar orange">RV</div>
+          <div>
+            <div class="name">Rohit Verma</div>
+            <div class="role">CTO, Logistics Platform</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
+
+  <!-- Controls -->
+  <button class="prev">❮</button>
+  <button class="next">❯</button>
+
 </div>
-</section>
+</div>
 
 <!-- ======== CONTACT ======== -->
 <section id="contact">
@@ -783,14 +1267,14 @@
         <div class="contact-icon"><i class="fas fa-envelope"></i></div>
         <div>
           <div class="contact-label">Email</div>
-          <div class="contact-val">hello@devforge.dev</div>
+          <div class="contact-val">rahultak1923@gmail.com</div>
         </div>
       </div>
       <div class="contact-item">
         <div class="contact-icon"><i class="fas fa-phone"></i></div>
         <div>
           <div class="contact-label">Phone</div>
-          <div class="contact-val">+91 98765 43210</div>
+          <div class="contact-val">+91 89491 93728</div>
         </div>
       </div>
       <div class="contact-item">
@@ -804,28 +1288,29 @@
         <div class="contact-icon"><i class="fas fa-clock"></i></div>
         <div>
           <div class="contact-label">Availability</div>
-          <div class="contact-val">Mon–Fri, 9 AM – 7 PM IST</div>
+          <!-- <div class="contact-val">Mon–Fri, 9 AM – 7 PM IST</div> -->
+          <div class="contact-val">24X7</div>
         </div>
       </div>
 
       <div class="social-bar">
-        <a href="https://github.com" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://twitter.com" target="_blank" class="social-btn" title="Twitter/X"><i class="fab fa-twitter"></i></a>
-        <a href="https://youtube.com" target="_blank" class="social-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://dribbble.com" target="_blank" class="social-btn" title="Dribbble"><i class="fab fa-dribbble"></i></a>
+        <a href="https://github.com/rahultak1923" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/rahul-tak-795752262/" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <!-- <a href="https://twitter.com" target="_blank" class="social-btn" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com" target="_blank" class="social-btn" title="YouTube"><i class="fab fa-youtube"></i></a> -->
+        <a href="https://www.instagram.com/rahultak1164/" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <!-- <a href="https://dribbble.com" target="_blank" class="social-btn" title="Dribbble"><i class="fab fa-dribbble"></i></a>
         <a href="https://behance.net" target="_blank" class="social-btn" title="Behance"><i class="fab fa-behance"></i></a>
-        <a href="https://dev.to" target="_blank" class="social-btn" title="Dev.to"><i class="fab fa-dev"></i></a>
+        <a href="https://dev.to" target="_blank" class="social-btn" title="Dev.to"><i class="fab fa-dev"></i></a> -->
       </div>
 
       <!-- Download Resume -->
-      <a href="#" class="btn-primary" style="margin-top:2rem;width:fit-content;display:inline-flex">
-        <i class="fas fa-download"></i> Download Resume
+      <a href="RahulTak _resume.PDF" class="btn-primary" style="margin-top:2rem;width:fit-content;display:inline-flex">
+        <i class="fas fa-download"></i> View Resume
       </a>
     </div>
 
-    <div class="contact-form">
+    <!-- <div class="contact-form">
       <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.2rem;margin-bottom:1.5rem">Send a Message</h3>
       <div class="form-row">
         <div class="form-group">
@@ -852,9 +1337,115 @@
       <button class="btn-submit" onclick="handleSubmit()">
         <i class="fas fa-paper-plane"></i> Send Message
       </button>
-    </div>
+    </div> -->
+ 
+     <div class="contact-form-card reveal-left">
+        <!-- FORM -->
+        <div id="form-section">
+          <h3 class="cf-title">Send a Message</h3>
+          <p class="cf-sub">Fill out the form and I'll get back to you at <span
+              style="color:var(--accent)">rahultak1923@gmail.com</span> within 24 hours.</p>
+
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name <span class="req">*</span></label>
+                <input type="text" id="f-fname" class="form-control" placeholder="Arjun" required />
+                <div class="field-err" id="err-fname">Please enter your first name.</div>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="f-lname" class="form-control" placeholder="Kumar" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="req">*</span></label>
+              <input type="email" id="f-email" class="form-control" placeholder="arjun@company.com" required />
+              <div class="field-err" id="err-email">Please enter a valid email.</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone (optional)</label>
+                <input type="tel" id="f-phone" class="form-control" placeholder="+91 98765 43210" />
+              </div>
+              <div class="form-group" style="display: none !important;">
+                <label>Budget Range</label>
+                <select id="f-budget" class="form-control">
+                  <option value="">Select budget...</option>
+                  <option>Under ₹10,000</option>
+                  <option>₹10,000 – ₹25,000</option>
+                  <option>₹25,000 – ₹50,000</option>
+                  <option>₹50,000 – ₹1,00,000</option>
+                  <option>₹1,00,000+</option>
+                  <option>Let's discuss</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group " style="display: none !important;">
+              <label>Service Needed <span class="req">*</span></label>
+              <select id="f-service" class="form-control" required>
+                <option value="">Select a service...</option>
+                <option>Full-Stack Web Development</option>
+                <option>UI/UX Design & Development</option>
+                <option>Frontend Development</option>
+                <option>Backend / API Development</option>
+                <option>Responsive Web Design</option>
+                <option>Cloud & DevOps</option>
+                <option>Performance Optimization</option>
+                <option>Consulting</option>
+                <option>Other</option>
+              </select>
+              <div class="field-err" id="err-service">Please select a service.</div>
+            </div>
+            <div class="form-group">
+              <label>Subject <span class="req">*</span></label>
+              <input type="text" id="f-subject" class="form-control" placeholder="Project inquiry — E-Commerce App"
+                required />
+              <div class="field-err" id="err-subject">Please enter a subject.</div>
+            </div>
+            <div class="form-group">
+              <label>Message <span class="req">*</span></label>
+              <textarea id="f-message" class="form-control"
+                placeholder="Tell me about your project, goals, timeline, and any relevant details..."
+                required></textarea>
+              <div class="field-err" id="err-message">Please enter your message.</div>
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-start;gap:10px">
+              <input type="checkbox" id="f-consent"
+                style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;cursor:none" />
+              <label for="f-consent" style="font-size:.8rem;color:var(--text2);cursor:none;font-weight:400">I agree that
+                my submitted data is collected and stored as described in the Privacy Policy, and that Rahul Tak can
+                contact me at the email provided.</label>
+            </div>
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <i class="fas fa-paper-plane" id="btn-icon"></i>
+              <span id="btn-text">Send Message</span>
+            </button>
+            <p style="font-size:.72rem;color:var(--text3);text-align:center;margin-top:.8rem">
+              <i class="fas fa-lock" style="margin-right:4px"></i>Your information is safe and never shared.
+            </p>
+          </form>
+        </div>
+        <!-- SUCCESS STATE -->
+        <div class="form-success" id="form-success">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <div class="success-title">Message Sent! 🎉</div>
+          <p class="success-text">
+            Thank you for reaching out! Your message has been sent directly to<br />
+            <span class="success-email">rahultak1923@gmail.com</span><br /><br />
+            I'll get back to you within 24 hours. In the meantime, feel free to explore my work.
+          </p>
+          <div style="display:flex;gap:1rem;justify-content:center;margin-top:1.8rem;flex-wrap:wrap">
+            <a href="work.html" class="btn btn-primary" onclick="navTo(event,'work.html')"><i class="fas fa-rocket"></i>
+              View My Work</a>
+            <button onclick="resetForm()" class="btn btn-ghost"><i class="fas fa-redo"></i> Send Another</button>
+          </div>
+        </div>
+      </div>
   </div>
 </section>
+
+
 
 <!-- ======== FOOTER ======== -->
 <footer>
@@ -862,14 +1453,14 @@
     <div class="footer-brand">
       <div class="nav-logo" style="margin-bottom:0.8rem">
         <div class="logo-icon"><i class="fas fa-code"></i></div>
-        Dev<span>Forge</span>
+        Rahul<span>Tak</span>
       </div>
       <p>Full-Stack Engineer & UI/UX Developer based in Jaipur, India. Building scalable web applications and beautiful interfaces that users love.</p>
       <div class="social-bar" style="margin-top:1.2rem">
-        <a href="https://github.com" target="_blank" class="social-btn"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://twitter.com" target="_blank" class="social-btn"><i class="fab fa-twitter"></i></a>
-        <a href="https://youtube.com" target="_blank" class="social-btn"><i class="fab fa-youtube"></i></a>
+        <a href="https://github.com/rahultak1923" target="_blank" class="social-btn"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/rahul-tak-795752262/" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+        <!-- <a href="https://twitter.com" target="_blank" class="social-btn"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com" target="_blank" class="social-btn"><i class="fab fa-youtube"></i></a> -->
       </div>
     </div>
     <div class="footer-col">
@@ -877,9 +1468,9 @@
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About Me</a></li>
-        <li><a href="#services">Services</a></li>
+        <!-- <li><a href="#services">Services</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#experience">Experience</a></li>
+        <li><a href="#experience">Experience</a></li> -->
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -907,8 +1498,8 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 DevForge. Designed &amp; built with <i class="fas fa-heart" style="color:var(--accent)"></i> in Jaipur, India.</p>
-    <p style="font-family:var(--font-mono);font-size:0.75rem">v2.0.0 · MIT License</p>
+    <p>© 2025 Rahul Tak. Designed &amp; built with <i class="fas fa-heart" style="color:var(--accent)"></i> in Jaipur, India.</p>
+    <p style="font-family:var(--font-mono);font-size:0.75rem">v1.0.0 · RT Portfolio</p>
   </div>
 </footer>
 
@@ -980,5 +1571,92 @@
 
 <script src="details.js"></script>
 <script src="index.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const EMAILJS_PUBLIC_KEY = 'LfLlv2hvzyos1E2Ef';
+  const EMAILJS_SERVICE_ID = 'service_q982e7l';
+  const EMAILJS_TEMPLATE_ID = 'template_vr9pcsl';
+
+  // INIT
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }
+
+  const form = document.getElementById('contact-form');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    if (!validateForm()) return; // ✅ now works
+
+    const btn = document.getElementById('submit-btn');
+    const icon = document.getElementById('btn-icon');
+    const txt = document.getElementById('btn-text');
+
+    btn.disabled = true;
+    icon.className = 'fas fa-spinner fa-spin';
+    txt.textContent = 'Sending...';
+
+    const params = {
+      from_name: document.getElementById('f-fname').value.trim() + ' ' + document.getElementById('f-lname').value.trim(),
+      from_email: document.getElementById('f-email').value.trim(),
+      phone: document.getElementById('f-phone').value.trim() || 'Not provided',
+      service: "N/A",
+      budget: "N/A",
+      subject: document.getElementById('f-subject').value.trim(),
+      message: document.getElementById('f-message').value.trim()
+    };
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+
+    } catch (err) {
+      console.error(err);
+
+      btn.disabled = false;
+      icon.className = 'fas fa-paper-plane';
+      txt.textContent = 'Send Message';
+    }
+  });
+
+  // ✅ ADD THIS (IMPORTANT)
+  function validateForm() {
+    let valid = true;
+
+    const rules = [
+      { id: 'f-fname', errId: 'err-fname', check: v => v.trim().length >= 2 },
+      { id: 'f-email', errId: 'err-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      // { id: 'f-service', errId: 'err-service', check: v => v !== '' },
+      { id: 'f-subject', errId: 'err-subject', check: v => v.trim().length >= 3 },
+      { id: 'f-message', errId: 'err-message', check: v => v.trim().length >= 10 },
+    ];
+
+    rules.forEach(r => {
+      const el = document.getElementById(r.id);
+      const err = document.getElementById(r.errId);
+
+      if (!r.check(el.value)) {
+        el.classList.add('error');
+        err.classList.add('show');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
+      }
+    });
+
+    return valid;
+  }
+
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </body>
 </html>

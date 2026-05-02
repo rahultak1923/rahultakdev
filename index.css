@@ -656,7 +656,8 @@ body:hover #cursor {
 }
 
 .c-str {
-    color: #c3e88d;
+    /* color: #c3e88d; */
+    color: #7ab624;
 }
 
 .c-num {

@@ -716,114 +716,116 @@
   <footer id="footer"></footer>
   <script src="shared.js"></script>
   <script>
-    // ── EmailJS SETUP ──
-    // 1. Go to https://www.emailjs.com/ → Create FREE account
-    // 2. Create an Email Service (Gmail recommended — connect your rahultak1923@gmail.com)
-    // 3. Create an Email Template with these variables:
-    //    {{from_name}}, {{from_email}}, {{phone}}, {{service}}, {{budget}}, {{subject}}, {{message}}
-    // 4. Replace the values below with your actual Public Key, Service ID, Template ID
-    const EMAILJS_PUBLIC_KEY = 'LfLlv2hvzyos1E2Ef';   // e.g. 'user_abc123...'
-    const EMAILJS_SERVICE_ID = 'service_q982e7l';   // e.g. 'service_gmail'
-    const EMAILJS_TEMPLATE_ID = 'template_vr9pcsl';  // e.g. 'template_contact'
+  // ── EmailJS SETUP ──
+  const EMAILJS_PUBLIC_KEY = 'LfLlv2hvzyos1E2Ef';
+  const EMAILJS_SERVICE_ID = 'service_q982e7l';
+  const EMAILJS_TEMPLATE_ID = 'template_vr9pcsl';
 
-    (function initEmailJS() {
-      if (typeof emailjs !== 'undefined') {
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-      }
-    })();
+  // ✅ INIT (FIXED)
+  (function initEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init(EMAILJS_PUBLIC_KEY); // ✔ correct way
+    } else {
+      console.error("EmailJS not loaded");
+    }
+  })();
 
-    // ── FORM SUBMIT ──
-    document.getElementById('contact-form').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      if (!validateForm()) return;
+  // ── FORM SUBMIT ──
+  document.getElementById('contact-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-      const btn = document.getElementById('submit-btn');
-      const icon = document.getElementById('btn-icon');
-      const txt = document.getElementById('btn-text');
+    const btn = document.getElementById('submit-btn');
+    const icon = document.getElementById('btn-icon');
+    const txt = document.getElementById('btn-text');
 
-      // Loading state
-      btn.disabled = true;
-      icon.className = 'fas fa-spinner fa-spin';
-      txt.textContent = 'Sending...';
+    // Loading state
+    btn.disabled = true;
+    icon.className = 'fas fa-spinner fa-spin';
+    txt.textContent = 'Sending...';
 
-      const params = {
-        from_name: document.getElementById('f-fname').value.trim() + ' ' + document.getElementById('f-lname').value.trim(),
-        from_email: document.getElementById('f-email').value.trim(),
-        phone: document.getElementById('f-phone').value.trim() || 'Not provided',
-        service: document.getElementById('f-service').value || 'Not specified',
-        budget: document.getElementById('f-budget').value || 'Not specified',
-        subject: document.getElementById('f-subject').value.trim(),
-        message: document.getElementById('f-message').value.trim(),
-        to_email: 'rahultak1923@gmail.com',
-      };
+    const params = {
+      from_name: document.getElementById('f-fname').value.trim() + ' ' + document.getElementById('f-lname').value.trim(),
+      from_email: document.getElementById('f-email').value.trim(),
+      phone: document.getElementById('f-phone').value.trim() || 'Not provided',
+      service: document.getElementById('f-service').value || 'Not specified',
+      budget: document.getElementById('f-budget').value || 'Not specified',
+      subject: document.getElementById('f-subject').value.trim(),
+      message: document.getElementById('f-message').value.trim(),
+      to_email: 'rahultak1923@gmail.com'
+    };
 
-      try {
-        if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-          // REAL send via EmailJS
-          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-        } else {
-          // DEMO mode: simulate network delay
-          await new Promise(r => setTimeout(r, 1800));
-          console.log('📧 [DEMO] Email would be sent to rahultak1923@gmail.com with:', params);
-        }
-        // SUCCESS
-        document.getElementById('form-section').style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-        showToast('Message sent to rahultak1923@gmail.com! 🚀');
-      } catch (err) {
-        console.error('EmailJS error:', err);
-        btn.disabled = false;
-        icon.className = 'fas fa-paper-plane';
-        txt.textContent = 'Send Message';
-        showToast('Something went wrong. Please email directly: rahultak1923@gmail.com', true);
+    try {
+      // ✅ DIRECT SEND (NO WRONG CONDITION)
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+
+      // SUCCESS
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      showToast('Message sent successfully! 🚀');
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+
+      btn.disabled = false;
+      icon.className = 'fas fa-paper-plane';
+      txt.textContent = 'Send Message';
+
+      showToast('❌ Failed to send message. Check console.', true);
+    }
+  });
+
+  function validateForm() {
+    let valid = true;
+    const rules = [
+      { id: 'f-fname', errId: 'err-fname', check: v => v.trim().length >= 2 },
+      { id: 'f-email', errId: 'err-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'f-service', errId: 'err-service', check: v => v !== '' },
+      { id: 'f-subject', errId: 'err-subject', check: v => v.trim().length >= 3 },
+      { id: 'f-message', errId: 'err-message', check: v => v.trim().length >= 10 },
+    ];
+
+    rules.forEach(r => {
+      const el = document.getElementById(r.id);
+      const err = document.getElementById(r.errId);
+
+      if (!r.check(el.value)) {
+        el.classList.add('error');
+        err.classList.add('show');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
       }
     });
 
-    function validateForm() {
-      let valid = true;
-      const rules = [
-        { id: 'f-fname', errId: 'err-fname', check: v => v.trim().length >= 2 },
-        { id: 'f-email', errId: 'err-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-        { id: 'f-service', errId: 'err-service', check: v => v !== '' },
-        { id: 'f-subject', errId: 'err-subject', check: v => v.trim().length >= 3 },
-        { id: 'f-message', errId: 'err-message', check: v => v.trim().length >= 10 },
-      ];
-      rules.forEach(r => {
-        const el = document.getElementById(r.id);
-        const err = document.getElementById(r.errId);
-        if (!r.check(el.value)) {
-          el.classList.add('error');
-          err.classList.add('show');
-          valid = false;
-        } else {
-          el.classList.remove('error');
-          err.classList.remove('show');
-        }
-      });
-      if (!valid) showToast('Please fill in all required fields.', true);
-      return valid;
-    }
+    if (!valid) showToast('Please fill in all required fields.', true);
+    return valid;
+  }
 
-    // Real-time field validation
-    ['f-fname', 'f-email', 'f-service', 'f-subject', 'f-message'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('input', () => {
+  // Real-time validation
+  ['f-fname', 'f-email', 'f-service', 'f-subject', 'f-message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
         el.classList.remove('error');
         const errEl = document.getElementById('err-' + id.replace('f-', ''));
         if (errEl) errEl.classList.remove('show');
       });
-    });
-
-    function resetForm() {
-      document.getElementById('contact-form').reset();
-      document.getElementById('form-section').style.display = 'block';
-      document.getElementById('form-success').style.display = 'none';
-      const btn = document.getElementById('submit-btn');
-      btn.disabled = false;
-      document.getElementById('btn-icon').className = 'fas fa-paper-plane';
-      document.getElementById('btn-text').textContent = 'Send Message';
     }
-  </script>
+  });
+
+  function resetForm() {
+    document.getElementById('contact-form').reset();
+    document.getElementById('form-section').style.display = 'block';
+    document.getElementById('form-success').style.display = 'none';
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    document.getElementById('btn-icon').className = 'fas fa-paper-plane';
+    document.getElementById('btn-text').textContent = 'Send Message';
+  }
+</script>
 </body>
 
 </html>
